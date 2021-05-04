@@ -69,7 +69,7 @@
         <TextBlock HorizontalAlignment="Left" Margin="523,142,0,0" TextWrapping="Wrap" Text="." VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="523,164,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="523,189,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="523,211,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
+        <TextBlock x:Name="CPUUsageText" HorizontalAlignment="Left" Margin="523,211,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="523,234,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="523,272,0,0" TextWrapping="Wrap" Text="." VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="523,294,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
