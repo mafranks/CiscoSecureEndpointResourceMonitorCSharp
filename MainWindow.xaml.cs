@@ -23,6 +23,7 @@ namespace CiscoSecureEndpointResourceMonitor
             var current_version = showMatch(directories, @"\d{1,2}\.\d{1,2}\.\d{1,2}");
             pullXMLFileInfo(path, current_version);
             Running.running = true;
+            ResetButton.IsEnabled = false;
             // This youtube video is amazing for BackgroundWorker explanation!
             // https://www.youtube.com/watch?v=snkDYT1Qz6g Thanks Zaheer Sani!
             backgroundWorker1 = new BackgroundWorker();
@@ -51,32 +52,36 @@ namespace CiscoSecureEndpointResourceMonitor
                 PerformanceCounter orbitalramCounter = new PerformanceCounter("Process", "Working Set", "orbital");
                 sfccpuCounter.NextValue();
                 cscmcpuCounter.NextValue();
-                orbitalcpuCounter.NextValue();
-
+                if (Running.orbital == 1)
+                {
+                    orbitalcpuCounter.NextValue();
+                }
                 // Give some time to accumulate data
                 Thread.Sleep(1000);
 
                 // Divide the cpu response by the number of processors
                 float current_sfc_cpu = sfccpuCounter.NextValue() / Environment.ProcessorCount;
                 float current_cscm_cpu = cscmcpuCounter.NextValue() / Environment.ProcessorCount;
-                float current_orbital_cpu = orbitalcpuCounter.NextValue() / Environment.ProcessorCount;
-                
+                if (Running.orbital == 1)
+                {
+                    Running.current_orbital_cpu = orbitalcpuCounter.NextValue() / Environment.ProcessorCount;
+                    Running.current_orbital_ram = orbitalramCounter.NextValue() / 1024 / 1024;
+                }
                 // Calculate RAM in MB
                 float current_sfc_ram = sfcramCounter.NextValue() / 1024 / 1024;
                 float current_cscm_ram = cscmramCounter.NextValue() / 1024 / 1024;
-                float current_orbital_ram = orbitalramCounter.NextValue() / 1024 / 1024;
                 
                 // Get totals
-                float total_cpu = current_sfc_cpu + current_cscm_cpu + current_orbital_cpu;
-                float total_ram = current_sfc_ram + current_cscm_ram + current_orbital_ram;
+                float total_cpu = current_sfc_cpu + current_cscm_cpu + Running.current_orbital_cpu;
+                float total_ram = current_sfc_ram + current_cscm_ram + Running.current_orbital_ram;
 
                 // Compare current with max and change if necessary
                 if (current_sfc_cpu > Running.max_sfc_cpu) { Running.max_sfc_cpu = current_sfc_cpu; }
                 if (current_sfc_ram > Running.max_sfc_ram) { Running.max_sfc_ram = current_sfc_ram; }
                 if (current_cscm_cpu > Running.max_cscm_cpu) { Running.max_cscm_cpu = current_cscm_cpu; }
                 if (current_cscm_ram > Running.max_cscm_ram) { Running.max_cscm_ram = current_cscm_ram; }
-                if (current_orbital_cpu > Running.max_orbital_cpu) { Running.max_orbital_cpu = current_orbital_cpu; }
-                if (current_orbital_ram > Running.max_orbital_ram) { Running.max_orbital_ram = current_orbital_ram; }
+                if (Running.current_orbital_cpu > Running.max_orbital_cpu) { Running.max_orbital_cpu = Running.current_orbital_cpu; }
+                if (Running.current_orbital_ram > Running.max_orbital_ram) { Running.max_orbital_ram = Running.current_orbital_ram; }
                 if (total_cpu > Running.max_cpu) { Running.max_cpu = total_cpu; }
                 if (total_ram > Running.max_ram) { Running.max_ram = total_ram; }
 
@@ -87,9 +92,9 @@ namespace CiscoSecureEndpointResourceMonitor
 
                 // Tuple has a limit of 7 items so you have to use a nested Tuple
                 backgroundWorker1.ReportProgress(0, Tuple.Create(
-                    Tuple.Create(current_sfc_cpu, current_cscm_cpu, current_orbital_cpu, total_cpu),
+                    Tuple.Create(current_sfc_cpu, current_cscm_cpu, Running.current_orbital_cpu, total_cpu),
                     Tuple.Create(Running.max_sfc_cpu, Running.max_cscm_cpu, Running.max_orbital_cpu, Running.max_cpu),
-                    Tuple.Create(current_sfc_ram, current_cscm_ram, current_orbital_ram, total_ram),
+                    Tuple.Create(current_sfc_ram, current_cscm_ram, Running.current_orbital_ram, total_ram),
                     Tuple.Create(Running.max_sfc_ram, Running.max_cscm_ram, Running.max_orbital_ram, Running.max_ram),
                     Running.diskSize, Running.dots));
             }
@@ -131,23 +136,32 @@ namespace CiscoSecureEndpointResourceMonitor
             public static float max_sfc_ram = 0;
             public static float max_cscm_cpu = 0;
             public static float max_cscm_ram = 0;
-            public static float max_orbital_cpu = 0;
-            public static float max_orbital_ram = 0;
             public static long diskSize = 0;
             public static string dots = ".";
+            public static int orbital = 0;
+            public static float current_orbital_cpu = 0;
+            public static float current_orbital_ram = 0;
+            public static float max_orbital_cpu = 0;
+            public static float max_orbital_ram = 0;
         }
         static long GetDirectorySize()
         {
             // Get array of all file names.
             string[] AMPfiles = Directory.GetFiles(@"C:\Program Files\Cisco\AMP", "*.*");
-            string[] Orbitalfiles = Directory.GetFiles(@"C:\Program Files\Cisco\Orbital", "*.*");
-
+            
             // Calculate total bytes of all files in a loop.
             long fileBytes = 0;
             fileBytes += parseDir(AMPfiles);
-            fileBytes += parseDir(Orbitalfiles);
-            // Return total size
+            // Repeat for Orbital if it is enabled
+
+            if (Running.orbital == 1)
+            {
+                string[] Orbitalfiles = Directory.GetFiles(@"C:\Program Files\Cisco\Orbital", "*.*");
+                fileBytes += parseDir(Orbitalfiles);
+                // Return total size
+            }
             return fileBytes;
+
         }
         static long parseDir(string[] files)
         {
@@ -165,6 +179,7 @@ namespace CiscoSecureEndpointResourceMonitor
             // Enabled/Disable button if the other is pressed
             StopButton.IsEnabled = true;
             StartButton.IsEnabled = false;
+            ResetButton.IsEnabled = false;
             StatusText.Text = "Running";
             Running.running = true;
             //parseProcesses();
@@ -175,9 +190,40 @@ namespace CiscoSecureEndpointResourceMonitor
             // Enabled/Disable button if the other is pressed
             StartButton.IsEnabled = true;
             StopButton.IsEnabled = false;
+            ResetButton.IsEnabled = true;
             backgroundWorker1.CancelAsync();
             Running.running = false;
             
+        }
+        private void ResetButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            ResetButton.IsEnabled = false;
+            Running.max_cpu = 0;
+            Running.max_ram = 0;
+            Running.max_sfc_cpu = 0;
+            Running.max_sfc_ram = 0;
+            Running.max_cscm_cpu = 0;
+            Running.max_cscm_ram = 0;
+            Running.diskSize = 0;
+            Running.max_orbital_cpu = 0;
+            Running.max_orbital_ram = 0;
+            CPUUsageText.Text = "0 %";
+            cscmCPUUSageText.Text = "0 %";
+            orbitalCPUUsageText.Text = "0 %";
+            TotalCPUText.Text = "0 %";
+            sfcMaxCPUText.Text = "0 %";
+            cscmMaxCPUText.Text = "0 %";
+            orbitalMaxCPUText.Text = "0 %";
+            MaxCPUText.Text = "0 %";
+            sfcRAMText.Text = "0 MB";
+            cscmRAMText.Text = "0 MB";
+            orbitalRAMText.Text = "0 MB";
+            TotalMemoryText.Text = "0 MB";
+            sfcMaxRAMText.Text = "0 MB";
+            cscmMaxRAMText.Text = "0 MB";
+            orbitalMaxRAMText.Text = "0 MB";
+            MaxRAMText.Text = "0 MB";
+            TotalDiskText.Text = "0 MB";
         }
         public void pullXMLFileInfo(string path, string current_version)
         {
@@ -237,7 +283,11 @@ namespace CiscoSecureEndpointResourceMonitor
             if (opts_list.Contains(exprev4_options)){ ScriptControlRect.Fill = new SolidColorBrush(Color.FromRgb(51, 165, 50)); }
             if (behavioral_protection == "1") { BehavioralProtectionRect.Fill = new SolidColorBrush(Color.FromRgb(51, 165, 50)); }
             if (tetra == "1") { TETRARect.Fill = new SolidColorBrush(Color.FromRgb(51, 165, 50)); }
-            if (orbital == "1") { OrbitalRect.Fill = new SolidColorBrush(Color.FromRgb(51, 165, 50)); }
+            if (orbital == "1" & Directory.Exists(@"C:\Program Files\Cisco\Orbital")) 
+            { 
+                OrbitalRect.Fill = new SolidColorBrush(Color.FromRgb(51, 165, 50)); 
+                Running.orbital = 1; 
+            }
         }
         public string parseXML(XmlDocument xml, List<string> list, int depth)
         {
@@ -287,5 +337,7 @@ namespace CiscoSecureEndpointResourceMonitor
                 }
             } return current_version;
         }
+
+
     }
 }

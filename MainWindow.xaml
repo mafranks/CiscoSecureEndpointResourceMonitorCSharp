@@ -16,8 +16,8 @@
         <Image x:Name="LogoImage" HorizontalAlignment="Left" Height="48" Margin="24,11,0,0" VerticalAlignment="Top" Width="350" Source="Logo_Cisco_Secure.png"/>
         <TextBlock x:Name="StatusText" HorizontalAlignment="Left" Margin="340,11,-22,0" TextWrapping="Wrap" Text="Press Start to Begin" VerticalAlignment="Top" Height="23" Width="350" FontSize="16" FontWeight="Bold" TextAlignment="Center"/>
         <Rectangle x:Name="EnginesRect" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="392" Margin="24,73,0,0" Stroke="Black" VerticalAlignment="Top" Width="344"/>
-        <Button x:Name="StartButton" Content="Start" HorizontalAlignment="Left" Margin="427,39,0,0" VerticalAlignment="Top" Width="75" Click="StartButton_Click"/>
-        <Button x:Name="StopButton" Content="Stop" HorizontalAlignment="Left" Margin="525,39,0,0" VerticalAlignment="Top" Width="75" IsEnabled="False" Click="StopButton_Click"/>
+        <Button x:Name="StartButton" Content="Start" HorizontalAlignment="Left" Margin="391,38,0,0" VerticalAlignment="Top" Width="75" Click="StartButton_Click"/>
+        <Button x:Name="StopButton" Content="Stop" HorizontalAlignment="Left" Margin="478,39,0,0" VerticalAlignment="Top" Width="75" IsEnabled="False" Click="StopButton_Click"/>
         <Rectangle x:Name="ProcessesRect" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="392" Margin="391,73,0,0" Stroke="Black" VerticalAlignment="Top" Width="252"/>
         <Rectangle x:Name="DetailsRect" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="159" Margin="24,486,0,0" Stroke="Black" VerticalAlignment="Top" Width="619"/>
         <Rectangle x:Name="GreenBox" Fill="#FF33A532" HorizontalAlignment="Left" Height="21" Margin="161,84,0,0" Stroke="Black" VerticalAlignment="Top" Width="23"/>
@@ -95,6 +95,7 @@
         <TextBlock x:Name="MaxCPUText" HorizontalAlignment="Left" Margin="280,405,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top" FontSize="14"/>
         <TextBlock HorizontalAlignment="Left" Margin="212,379,0,0" TextWrapping="Wrap" Text="Max MEM" VerticalAlignment="Top" FontSize="14"/>
         <TextBlock x:Name="MaxRAMText" HorizontalAlignment="Left" Margin="280,379,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top" FontSize="14"/>
+        <Button x:Name="ResetButton" Content="Reset" HorizontalAlignment="Left" Margin="568,39,0,0" VerticalAlignment="Top" Width="75" Click="ResetButton_Click_1"/>
 
     </Grid>
 </Window>
