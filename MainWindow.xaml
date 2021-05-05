@@ -66,20 +66,20 @@
         <TextBlock HorizontalAlignment="Left" Margin="405,447,0,0" TextWrapping="Wrap" Text="MEM Usage Max" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="405,469,0,0" TextWrapping="Wrap" Text="CPU Usage" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="405,491,0,0" TextWrapping="Wrap" Text="CPU Usage Max" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="523,142,0,0" TextWrapping="Wrap" Text="." VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="523,142,0,0" TextWrapping="Wrap" Text="sfc" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="523,164,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="523,189,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock x:Name="CPUUsageText" HorizontalAlignment="Left" Margin="523,211,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="523,234,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="523,272,0,0" TextWrapping="Wrap" Text="." VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="523,272,0,0" TextWrapping="Wrap" Text="cscm" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="523,294,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="523,317,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="523,340,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
+        <TextBlock x:Name="cscmCPUUSageText" HorizontalAlignment="Left" Margin="523,340,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="523,363,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="523,400,0,0" TextWrapping="Wrap" Text="." VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="523,400,0,0" TextWrapping="Wrap" Text="orbital" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="523,422,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="523,447,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="523,469,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
+        <TextBlock x:Name="orbitalCPUUsageText" HorizontalAlignment="Left" Margin="523,469,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="523,491,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="46,554,0,0" TextWrapping="Wrap" Text="Version &amp; Build" VerticalAlignment="Top" FontSize="14"/>
         <TextBlock HorizontalAlignment="Left" Margin="46,579,0,0" TextWrapping="Wrap" Text="Policy" VerticalAlignment="Top" FontSize="14"/>

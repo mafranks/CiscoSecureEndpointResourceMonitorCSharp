@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows;
-using System.IO;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Text.RegularExpressions;
-using System.Xml;
-using System.Windows.Media;
 using System.Threading;
-using System.Management;
+using System.Windows;
+using System.Windows.Media;
+using System.Xml;
 
 namespace CiscoSecureEndpointResourceMonitor
 {
     public partial class MainWindow : Window
     {
+        BackgroundWorker backgroundWorker1;
         public MainWindow()
         {
             InitializeComponent();
@@ -22,10 +23,57 @@ namespace CiscoSecureEndpointResourceMonitor
             var current_version = showMatch(directories, @"\d{1,2}\.\d{1,2}\.\d{1,2}");
             pullXMLFileInfo(path, current_version);
             Running.running = true;
+            // This youtube video is amazing for BackgroundWorker explanation!
+            // https://www.youtube.com/watch?v=snkDYT1Qz6g Thanks Zaheer Sani!
+            backgroundWorker1 = new BackgroundWorker();
+            //Add DoWork Event Handler
+            backgroundWorker1.DoWork += backgroundWorker1_DoWork;
+            //Add ProgressChanged Event Hanlder *** THIS ALLOWS YOU TO UPDATE THE GUI THREAD ***
+            backgroundWorker1.ProgressChanged += backgroundWorker1_ProgressChanged;
+            //Add RunWorkerCompleted Event Handler ** NOT USING THIS SINCE MY LOOP IS ENDLESS**
+            //backgroundWorker1.RunWorkerCompleted += backgroundWorker1_RunWorkerCompleted;
+            //Allow worker to report progress
+            backgroundWorker1.WorkerReportsProgress = true;
+            //Allow worker to be cancelled
+            backgroundWorker1.WorkerSupportsCancellation = true;
+        }
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            while (Running.running == true)
+            {
+                if (backgroundWorker1.CancellationPending) { break; }
+                // Initialize to start capturing
+                var sfcperfCounter = new PerformanceCounter("Process", "% Processor Time", "sfc");
+                var cscmperfCounter = new PerformanceCounter("Process", "% Processor Time", "cscm");
+                var orbitalperfCounter = new PerformanceCounter("Process", "% Processor Time", "orbital");
+                sfcperfCounter.NextValue();
+                cscmperfCounter.NextValue();
+                orbitalperfCounter.NextValue();
+
+                // Give some time to accumulate data
+                Thread.Sleep(1000);
+
+                // Divide the cpu response by the number of processors
+                float current_sfc_cpu = sfcperfCounter.NextValue() / Environment.ProcessorCount;
+                float current_cscm_cpu = cscmperfCounter.NextValue() / Environment.ProcessorCount;
+                float current_orbital_cpu = orbitalperfCounter.NextValue() / Environment.ProcessorCount;
+                Trace.WriteLine($"sfc CPU: {current_sfc_cpu}");
+                Trace.WriteLine($"cscm CPU: {current_cscm_cpu}");
+                Trace.WriteLine($"orbital CPU: {current_orbital_cpu}");
+                backgroundWorker1.ReportProgress(0, new Tuple<float, float, float>(current_sfc_cpu, current_cscm_cpu, current_orbital_cpu));
+            }
+        }
+        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            var args = (Tuple<float, float, float>)e.UserState;
+            this.CPUUsageText.Text = $"{args.Item1.ToString()} %";
+            this.cscmCPUUSageText.Text = $"{args.Item2.ToString()} %";
+            this.orbitalCPUUsageText.Text = $"{args.Item3.ToString()} %";
         }
         static class Running
         {
             public static bool running;
+            //public static float current_cpu;
         }
         public void StartButton_Click(object sender, RoutedEventArgs e)
         {
@@ -34,32 +82,17 @@ namespace CiscoSecureEndpointResourceMonitor
             StartButton.IsEnabled = false;
             StatusText.Text = "Running";
             Running.running = true;
-            Thread thread = new Thread(new ThreadStart(parseProcesses));
-            thread.Start();
+            //parseProcesses();
+            backgroundWorker1.RunWorkerAsync();
         }
         public void StopButton_Click(object sender, RoutedEventArgs e)
         {
             // Enabled/Disable button if the other is pressed
             StartButton.IsEnabled = true;
             StopButton.IsEnabled = false;
-            Running.running = false;
             StatusText.Text = "Press Start to Continue";
-        }
-        public void parseProcesses()
-        {
-                var perfCounter = new PerformanceCounter("Process", "% Processor Time", "sfc");
-
-                // Initialize to start capturing
-                perfCounter.NextValue();
-
-                while (Running.running == true)
-                {
-                    // give some time to accumulate data
-                    Thread.Sleep(1000);
-
-                    float current_cpu = perfCounter.NextValue() / Environment.ProcessorCount;
-                Trace.WriteLine(current_cpu);
-                }
+            backgroundWorker1.CancelAsync();
+            Running.running = false;
         }
         public void pullXMLFileInfo(string path, string current_version)
         {
