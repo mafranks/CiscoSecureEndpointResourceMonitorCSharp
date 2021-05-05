@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CiscoSecureEndpointResourceMonitor"
         mc:Ignorable="d"
-        Title="Cisco Secure Endpoint Resource Monitor" Height="750" Width="850" Icon="Endpoint_Icon.png">
+        Title="Cisco Secure Endpoint Resource Monitor" Height="701" Width="675" Icon="Endpoint_Icon.png">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="386*"/>
@@ -13,88 +13,88 @@
         <Grid.Background>
             <ImageBrush/>
         </Grid.Background>
-        <Image x:Name="LogoImage" HorizontalAlignment="Left" Height="48" Margin="212,10,0,0" VerticalAlignment="Top" Width="350" Source="Logo_Cisco_Secure.png" Grid.ColumnSpan="3"/>
-        <TextBlock x:Name="StatusText" HorizontalAlignment="Left" Margin="212,63,0,0" TextWrapping="Wrap" Text="Press Start to Begin" VerticalAlignment="Top" Height="23" Width="350" FontSize="16" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3"/>
-        <Rectangle x:Name="EnginesRect" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="392" Margin="24,125,0,0" Stroke="Black" VerticalAlignment="Top" Width="344"/>
-        <Button x:Name="StartButton" Content="Start" HorizontalAlignment="Left" Margin="293,91,0,0" VerticalAlignment="Top" Width="75" Click="StartButton_Click"/>
-        <Button x:Name="StopButton" Content="Stop" HorizontalAlignment="Left" Margin="391,91,0,0" VerticalAlignment="Top" Width="75" IsEnabled="False" Click="StopButton_Click"/>
-        <Rectangle x:Name="ProcessesRect" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="392" Margin="391,125,0,0" Stroke="Black" VerticalAlignment="Top" Width="425"/>
-        <Rectangle x:Name="DetailsRect" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="159" Margin="24,538,0,0" Stroke="Black" VerticalAlignment="Top" Width="792"/>
-        <Rectangle x:Name="GreenBox" Fill="#FF33A532" HorizontalAlignment="Left" Height="21" Margin="161,136,0,0" Stroke="Black" VerticalAlignment="Top" Width="23"/>
-        <TextBlock HorizontalAlignment="Left" Margin="47,141,0,0" TextWrapping="Wrap" Text="Engines Enabled" VerticalAlignment="Top" FontSize="14"/>
-        <Rectangle x:Name="RedBox" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="21" Margin="329,136,0,0" Stroke="Black" VerticalAlignment="Top" Width="23"/>
-        <TextBlock HorizontalAlignment="Left" Margin="212,141,0,0" TextWrapping="Wrap" Text="Engines Disabled" VerticalAlignment="Top" FontSize="14"/>
-        <Rectangle x:Name="FileScanRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="47,176,0,0" Stroke="Black" VerticalAlignment="Top" Width="137"/>
-        <TextBlock HorizontalAlignment="Left" Margin="93,176,0,0" TextWrapping="Wrap" Text="File Scan" VerticalAlignment="Top" Height="23" FontSize="14"/>
-        <Rectangle x:Name="NetworkScanRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="212,176,0,0" Stroke="Black" VerticalAlignment="Top" Width="140"/>
-        <Rectangle x:Name="MAPRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="47,218,0,0" Stroke="Black" VerticalAlignment="Top" Width="137"/>
-        <Rectangle x:Name="ScriptProtectionRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="212,218,0,0" Stroke="Black" VerticalAlignment="Top" Width="140"/>
-        <Rectangle x:Name="SPPRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="47,261,0,0" Stroke="Black" VerticalAlignment="Top" Width="137"/>
-        <Rectangle x:Name="ExprevRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="212,261,0,0" Stroke="Black" VerticalAlignment="Top" Width="140"/>
-        <Rectangle x:Name="ScriptControlRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="47,305,0,0" Stroke="Black" VerticalAlignment="Top" Width="137"/>
-        <Rectangle x:Name="BehavioralProtectionRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="212,305,0,0" Stroke="Black" VerticalAlignment="Top" Width="140"/>
-        <Rectangle x:Name="TETRARect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="47,346,0,0" Stroke="Black" VerticalAlignment="Top" Width="137"/>
-        <Rectangle x:Name="OrbitalRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="212,346,0,0" Stroke="Black" VerticalAlignment="Top" Width="140"/>
-        <TextBlock HorizontalAlignment="Left" Margin="241,176,0,0" TextWrapping="Wrap" Text="Network Scan" VerticalAlignment="Top" Height="23" FontSize="14"/>
-        <TextBlock HorizontalAlignment="Left" Margin="103,218,0,0" TextWrapping="Wrap" Text="MAP" VerticalAlignment="Top" Height="23" FontSize="14"/>
-        <TextBlock HorizontalAlignment="Left" Margin="231,218,0,0" TextWrapping="Wrap" Text="Script Protection" VerticalAlignment="Top" Height="23" FontSize="14"/>
-        <TextBlock HorizontalAlignment="Left" Margin="105,261,0,0" TextWrapping="Wrap" Text="SPP" VerticalAlignment="Top" Height="23" FontSize="14"/>
-        <TextBlock HorizontalAlignment="Left" Margin="227,261,0,0" TextWrapping="Wrap" Text="Exploit Prevention" VerticalAlignment="Top" Height="23" FontSize="14"/>
-        <TextBlock HorizontalAlignment="Left" Margin="75,305,0,0" TextWrapping="Wrap" Text="Script Control" VerticalAlignment="Top" Height="23" FontSize="14"/>
-        <TextBlock HorizontalAlignment="Left" Margin="216,307,0,0" TextWrapping="Wrap" Text="Behavioral Protection" VerticalAlignment="Top" Height="23" FontSize="14" Width="138"/>
-        <TextBlock HorizontalAlignment="Left" Margin="99,346,0,0" TextWrapping="Wrap" Text="TETRA" VerticalAlignment="Top" Height="23" FontSize="14"/>
-        <TextBlock HorizontalAlignment="Left" Margin="259,346,0,0" TextWrapping="Wrap" Text="Orbital" VerticalAlignment="Top" Height="23" FontSize="14"/>
-        <TextBlock HorizontalAlignment="Left" Margin="81,397,0,0" TextWrapping="Wrap" Text="Secure Endpoint Total Resouces Used" VerticalAlignment="Top" FontSize="14"/>
-        <TextBlock HorizontalAlignment="Left" Margin="47,431,0,0" TextWrapping="Wrap" Text="Memory" VerticalAlignment="Top" FontSize="14"/>
-        <TextBlock HorizontalAlignment="Left" Margin="47,457,0,0" TextWrapping="Wrap" Text="CPU" VerticalAlignment="Top" FontSize="14"/>
-        <TextBlock HorizontalAlignment="Left" Margin="47,485,0,0" TextWrapping="Wrap" Text="Disk" VerticalAlignment="Top" FontSize="14"/>
-        <TextBlock x:Name="TotalMemoryText" HorizontalAlignment="Left" Margin="116,431,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top" FontSize="14"/>
-        <TextBlock x:Name="TotalCPUText" HorizontalAlignment="Left" Margin="116,457,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top" FontSize="14"/>
-        <TextBlock x:Name="TotalDiskText" HorizontalAlignment="Left" Margin="116,485,0,0" TextWrapping="Wrap" Text="0 MB" VerticalAlignment="Top" FontSize="14"/>
-        <TextBlock HorizontalAlignment="Left" Margin="405,142,0,0" TextWrapping="Wrap" Text="Process" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="405,164,0,0" TextWrapping="Wrap" Text="MEM Usage" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="405,189,0,0" TextWrapping="Wrap" Text="MEM Usage Max" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="405,211,0,0" TextWrapping="Wrap" Text="CPU Usage" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="405,234,0,0" TextWrapping="Wrap" Text="CPU Usage Max" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="405,272,0,0" TextWrapping="Wrap" Text="Process" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="405,294,0,0" TextWrapping="Wrap" Text="MEM Usage" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="405,317,0,0" TextWrapping="Wrap" Text="MEM Usage Max" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="405,340,0,0" TextWrapping="Wrap" Text="CPU Usage" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="405,363,0,0" TextWrapping="Wrap" Text="CPU Usage Max" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="405,400,0,0" TextWrapping="Wrap" Text="Process" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="405,422,0,0" TextWrapping="Wrap" Text="MEM Usage" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="405,447,0,0" TextWrapping="Wrap" Text="MEM Usage Max" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="405,469,0,0" TextWrapping="Wrap" Text="CPU Usage" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="405,491,0,0" TextWrapping="Wrap" Text="CPU Usage Max" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="523,142,0,0" TextWrapping="Wrap" Text="sfc" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="523,164,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="523,189,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
-        <TextBlock x:Name="CPUUsageText" HorizontalAlignment="Left" Margin="523,211,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
-        <TextBlock x:Name="sfcMaxCPUText" HorizontalAlignment="Left" Margin="523,234,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="523,272,0,0" TextWrapping="Wrap" Text="cscm" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="523,294,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="523,317,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
-        <TextBlock x:Name="cscmCPUUSageText" HorizontalAlignment="Left" Margin="523,340,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
-        <TextBlock x:Name="cscmMaxCPUText" HorizontalAlignment="Left" Margin="523,363,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="523,400,0,0" TextWrapping="Wrap" Text="orbital" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="523,422,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="523,447,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
-        <TextBlock x:Name="orbitalCPUUsageText" HorizontalAlignment="Left" Margin="523,469,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
-        <TextBlock x:Name="orbitalMaxCPUText" HorizontalAlignment="Left" Margin="523,491,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="46,554,0,0" TextWrapping="Wrap" Text="Version &amp; Build" VerticalAlignment="Top" FontSize="14"/>
-        <TextBlock HorizontalAlignment="Left" Margin="46,579,0,0" TextWrapping="Wrap" Text="Policy" VerticalAlignment="Top" FontSize="14"/>
-        <TextBlock HorizontalAlignment="Left" Margin="46,604,0,0" TextWrapping="Wrap" Text="Policy UUID" VerticalAlignment="Top" FontSize="14"/>
-        <TextBlock HorizontalAlignment="Left" Margin="46,629,0,0" TextWrapping="Wrap" Text="Policy Serial" VerticalAlignment="Top" FontSize="14"/>
-        <TextBlock HorizontalAlignment="Left" Margin="47,653,0,0" TextWrapping="Wrap" Text="TETRA Version" VerticalAlignment="Top" FontSize="14"/>
-        <TextBlock x:Name="VersionText" HorizontalAlignment="Left" Margin="179,554,0,0" TextWrapping="Wrap" Text="0.0.0.00000" VerticalAlignment="Top" FontSize="14"/>
-        <TextBlock x:Name="PolicyNameText" HorizontalAlignment="Left" Margin="179,579,0,0" TextWrapping="Wrap" Text="Policy Name" VerticalAlignment="Top" FontSize="14"/>
-        <TextBlock x:Name="PolicyUUIDText" HorizontalAlignment="Left" Margin="179,604,0,0" TextWrapping="Wrap" Text="abcdabcd-1234-abcd-1234-abcdabcd" VerticalAlignment="Top" FontSize="14"/>
-        <TextBlock x:Name="PolicySerialText" HorizontalAlignment="Left" Margin="179,629,0,0" TextWrapping="Wrap" Text="000" VerticalAlignment="Top" FontSize="14"/>
-        <TextBlock x:Name="TETRAVersionText" HorizontalAlignment="Left" Margin="179,653,0,0" TextWrapping="Wrap" Text="00000" VerticalAlignment="Top" FontSize="14"/>
-        <TextBlock HorizontalAlignment="Left" Margin="212,457,0,0" TextWrapping="Wrap" Text="Max CPU" VerticalAlignment="Top" FontSize="14"/>
-        <TextBlock x:Name="MaxCPUText" HorizontalAlignment="Left" Margin="280,457,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top" FontSize="14"/>
-        <TextBlock HorizontalAlignment="Left" Margin="212,431,0,0" TextWrapping="Wrap" Text="Max MEM" VerticalAlignment="Top" FontSize="14"/>
-        <TextBlock x:Name="MaxMEXText_Copy" HorizontalAlignment="Left" Margin="280,431,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top" FontSize="14"/>
+        <Image x:Name="LogoImage" HorizontalAlignment="Left" Height="48" Margin="24,11,0,0" VerticalAlignment="Top" Width="350" Source="Logo_Cisco_Secure.png"/>
+        <TextBlock x:Name="StatusText" HorizontalAlignment="Left" Margin="340,11,-22,0" TextWrapping="Wrap" Text="Press Start to Begin" VerticalAlignment="Top" Height="23" Width="350" FontSize="16" FontWeight="Bold" TextAlignment="Center"/>
+        <Rectangle x:Name="EnginesRect" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="392" Margin="24,73,0,0" Stroke="Black" VerticalAlignment="Top" Width="344"/>
+        <Button x:Name="StartButton" Content="Start" HorizontalAlignment="Left" Margin="427,39,0,0" VerticalAlignment="Top" Width="75" Click="StartButton_Click"/>
+        <Button x:Name="StopButton" Content="Stop" HorizontalAlignment="Left" Margin="525,39,0,0" VerticalAlignment="Top" Width="75" IsEnabled="False" Click="StopButton_Click"/>
+        <Rectangle x:Name="ProcessesRect" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="392" Margin="391,73,0,0" Stroke="Black" VerticalAlignment="Top" Width="252"/>
+        <Rectangle x:Name="DetailsRect" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="159" Margin="24,486,0,0" Stroke="Black" VerticalAlignment="Top" Width="619"/>
+        <Rectangle x:Name="GreenBox" Fill="#FF33A532" HorizontalAlignment="Left" Height="21" Margin="161,84,0,0" Stroke="Black" VerticalAlignment="Top" Width="23"/>
+        <TextBlock HorizontalAlignment="Left" Margin="47,89,0,0" TextWrapping="Wrap" Text="Engines Enabled" VerticalAlignment="Top" FontSize="14"/>
+        <Rectangle x:Name="RedBox" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="21" Margin="329,84,0,0" Stroke="Black" VerticalAlignment="Top" Width="23"/>
+        <TextBlock HorizontalAlignment="Left" Margin="212,89,0,0" TextWrapping="Wrap" Text="Engines Disabled" VerticalAlignment="Top" FontSize="14"/>
+        <Rectangle x:Name="FileScanRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="47,124,0,0" Stroke="Black" VerticalAlignment="Top" Width="137"/>
+        <TextBlock HorizontalAlignment="Left" Margin="93,124,0,0" TextWrapping="Wrap" Text="File Scan" VerticalAlignment="Top" Height="23" FontSize="14"/>
+        <Rectangle x:Name="NetworkScanRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="212,124,0,0" Stroke="Black" VerticalAlignment="Top" Width="140"/>
+        <Rectangle x:Name="MAPRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="47,166,0,0" Stroke="Black" VerticalAlignment="Top" Width="137"/>
+        <Rectangle x:Name="ScriptProtectionRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="212,166,0,0" Stroke="Black" VerticalAlignment="Top" Width="140"/>
+        <Rectangle x:Name="SPPRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="47,209,0,0" Stroke="Black" VerticalAlignment="Top" Width="137"/>
+        <Rectangle x:Name="ExprevRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="212,209,0,0" Stroke="Black" VerticalAlignment="Top" Width="140"/>
+        <Rectangle x:Name="ScriptControlRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="47,253,0,0" Stroke="Black" VerticalAlignment="Top" Width="137"/>
+        <Rectangle x:Name="BehavioralProtectionRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="212,253,0,0" Stroke="Black" VerticalAlignment="Top" Width="140"/>
+        <Rectangle x:Name="TETRARect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="47,294,0,0" Stroke="Black" VerticalAlignment="Top" Width="137"/>
+        <Rectangle x:Name="OrbitalRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="212,294,0,0" Stroke="Black" VerticalAlignment="Top" Width="140"/>
+        <TextBlock HorizontalAlignment="Left" Margin="241,124,0,0" TextWrapping="Wrap" Text="Network Scan" VerticalAlignment="Top" Height="23" FontSize="14"/>
+        <TextBlock HorizontalAlignment="Left" Margin="103,166,0,0" TextWrapping="Wrap" Text="MAP" VerticalAlignment="Top" Height="23" FontSize="14"/>
+        <TextBlock HorizontalAlignment="Left" Margin="231,166,0,0" TextWrapping="Wrap" Text="Script Protection" VerticalAlignment="Top" Height="23" FontSize="14"/>
+        <TextBlock HorizontalAlignment="Left" Margin="105,209,0,0" TextWrapping="Wrap" Text="SPP" VerticalAlignment="Top" Height="23" FontSize="14"/>
+        <TextBlock HorizontalAlignment="Left" Margin="227,209,0,0" TextWrapping="Wrap" Text="Exploit Prevention" VerticalAlignment="Top" Height="23" FontSize="14"/>
+        <TextBlock HorizontalAlignment="Left" Margin="75,253,0,0" TextWrapping="Wrap" Text="Script Control" VerticalAlignment="Top" Height="23" FontSize="14"/>
+        <TextBlock HorizontalAlignment="Left" Margin="216,255,0,0" TextWrapping="Wrap" Text="Behavioral Protection" VerticalAlignment="Top" Height="23" FontSize="14" Width="138"/>
+        <TextBlock HorizontalAlignment="Left" Margin="99,294,0,0" TextWrapping="Wrap" Text="TETRA" VerticalAlignment="Top" Height="23" FontSize="14"/>
+        <TextBlock HorizontalAlignment="Left" Margin="259,294,0,0" TextWrapping="Wrap" Text="Orbital" VerticalAlignment="Top" Height="23" FontSize="14"/>
+        <TextBlock HorizontalAlignment="Left" Margin="81,345,0,0" TextWrapping="Wrap" Text="Secure Endpoint Total Resouces Used" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock HorizontalAlignment="Left" Margin="47,379,0,0" TextWrapping="Wrap" Text="Memory" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock HorizontalAlignment="Left" Margin="47,405,0,0" TextWrapping="Wrap" Text="CPU" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock HorizontalAlignment="Left" Margin="47,433,0,0" TextWrapping="Wrap" Text="Disk" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock x:Name="TotalMemoryText" HorizontalAlignment="Left" Margin="116,379,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock x:Name="TotalCPUText" HorizontalAlignment="Left" Margin="116,405,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock x:Name="TotalDiskText" HorizontalAlignment="Left" Margin="116,433,0,0" TextWrapping="Wrap" Text="0 MB" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock HorizontalAlignment="Left" Margin="405,90,0,0" TextWrapping="Wrap" Text="Process" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="405,112,0,0" TextWrapping="Wrap" Text="MEM Usage" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="405,137,0,0" TextWrapping="Wrap" Text="MEM Usage Max" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="405,159,0,0" TextWrapping="Wrap" Text="CPU Usage" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="405,182,0,0" TextWrapping="Wrap" Text="CPU Usage Max" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="405,220,0,0" TextWrapping="Wrap" Text="Process" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="405,242,0,0" TextWrapping="Wrap" Text="MEM Usage" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="405,265,0,0" TextWrapping="Wrap" Text="MEM Usage Max" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="405,288,0,0" TextWrapping="Wrap" Text="CPU Usage" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="405,311,0,0" TextWrapping="Wrap" Text="CPU Usage Max" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="405,348,0,0" TextWrapping="Wrap" Text="Process" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="405,370,0,0" TextWrapping="Wrap" Text="MEM Usage" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="405,395,0,0" TextWrapping="Wrap" Text="MEM Usage Max" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="405,417,0,0" TextWrapping="Wrap" Text="CPU Usage" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="405,439,0,0" TextWrapping="Wrap" Text="CPU Usage Max" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="523,90,0,0" TextWrapping="Wrap" Text="sfc" VerticalAlignment="Top"/>
+        <TextBlock x:Name="sfcRAMText" HorizontalAlignment="Left" Margin="523,112,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
+        <TextBlock x:Name="sfcMaxRAMText" HorizontalAlignment="Left" Margin="523,137,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
+        <TextBlock x:Name="CPUUsageText" HorizontalAlignment="Left" Margin="523,159,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
+        <TextBlock x:Name="sfcMaxCPUText" HorizontalAlignment="Left" Margin="523,182,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="523,220,0,0" TextWrapping="Wrap" Text="cscm" VerticalAlignment="Top"/>
+        <TextBlock x:Name="cscmRAMText" HorizontalAlignment="Left" Margin="523,242,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
+        <TextBlock x:Name="cscmMaxRAMText" HorizontalAlignment="Left" Margin="523,265,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
+        <TextBlock x:Name="cscmCPUUSageText" HorizontalAlignment="Left" Margin="523,288,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
+        <TextBlock x:Name="cscmMaxCPUText" HorizontalAlignment="Left" Margin="523,311,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="523,348,0,0" TextWrapping="Wrap" Text="orbital" VerticalAlignment="Top"/>
+        <TextBlock x:Name="orbitalRAMText" HorizontalAlignment="Left" Margin="523,370,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
+        <TextBlock x:Name="orbitalMaxRAMText" HorizontalAlignment="Left" Margin="523,395,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
+        <TextBlock x:Name="orbitalCPUUsageText" HorizontalAlignment="Left" Margin="523,417,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
+        <TextBlock x:Name="orbitalMaxCPUText" HorizontalAlignment="Left" Margin="523,439,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="46,502,0,0" TextWrapping="Wrap" Text="Version &amp; Build" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock HorizontalAlignment="Left" Margin="46,527,0,0" TextWrapping="Wrap" Text="Policy" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock HorizontalAlignment="Left" Margin="46,552,0,0" TextWrapping="Wrap" Text="Policy UUID" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock HorizontalAlignment="Left" Margin="46,577,0,0" TextWrapping="Wrap" Text="Policy Serial" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock HorizontalAlignment="Left" Margin="47,601,0,0" TextWrapping="Wrap" Text="TETRA Version" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock x:Name="VersionText" HorizontalAlignment="Left" Margin="179,502,0,0" TextWrapping="Wrap" Text="0.0.0.00000" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock x:Name="PolicyNameText" HorizontalAlignment="Left" Margin="179,527,0,0" TextWrapping="Wrap" Text="Policy Name" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock x:Name="PolicyUUIDText" HorizontalAlignment="Left" Margin="179,552,0,0" TextWrapping="Wrap" Text="abcdabcd-1234-abcd-1234-abcdabcd" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock x:Name="PolicySerialText" HorizontalAlignment="Left" Margin="179,577,0,0" TextWrapping="Wrap" Text="000" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock x:Name="TETRAVersionText" HorizontalAlignment="Left" Margin="179,601,0,0" TextWrapping="Wrap" Text="00000" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock HorizontalAlignment="Left" Margin="212,405,0,0" TextWrapping="Wrap" Text="Max CPU" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock x:Name="MaxCPUText" HorizontalAlignment="Left" Margin="280,405,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock HorizontalAlignment="Left" Margin="212,379,0,0" TextWrapping="Wrap" Text="Max MEM" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock x:Name="MaxRAMText" HorizontalAlignment="Left" Margin="280,379,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top" FontSize="14"/>
 
     </Grid>
 </Window>

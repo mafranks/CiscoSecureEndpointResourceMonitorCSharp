@@ -30,8 +30,8 @@ namespace CiscoSecureEndpointResourceMonitor
             backgroundWorker1.DoWork += backgroundWorker1_DoWork;
             //Add ProgressChanged Event Hanlder *** THIS ALLOWS YOU TO UPDATE THE GUI THREAD ***
             backgroundWorker1.ProgressChanged += backgroundWorker1_ProgressChanged;
-            //Add RunWorkerCompleted Event Handler ** NOT USING THIS SINCE MY LOOP IS ENDLESS**
-            //backgroundWorker1.RunWorkerCompleted += backgroundWorker1_RunWorkerCompleted;
+            //Add RunWorkerCompleted Event Handler ** RUN CODE WHEN BACKGROUND WORKER COMPLETES **
+            backgroundWorker1.RunWorkerCompleted += backgroundWorker1_RunWorkerCompleted;
             //Allow worker to report progress
             backgroundWorker1.WorkerReportsProgress = true;
             //Allow worker to be cancelled
@@ -43,50 +43,122 @@ namespace CiscoSecureEndpointResourceMonitor
             {
                 if (backgroundWorker1.CancellationPending) { break; }
                 // Initialize to start capturing
-                var sfcperfCounter = new PerformanceCounter("Process", "% Processor Time", "sfc");
-                var cscmperfCounter = new PerformanceCounter("Process", "% Processor Time", "cscm");
-                var orbitalperfCounter = new PerformanceCounter("Process", "% Processor Time", "orbital");
-                sfcperfCounter.NextValue();
-                cscmperfCounter.NextValue();
-                orbitalperfCounter.NextValue();
+                PerformanceCounter sfccpuCounter = new PerformanceCounter("Process", "% Processor Time", "sfc");
+                PerformanceCounter sfcramCounter = new PerformanceCounter("Process", "Working Set", "sfc");
+                PerformanceCounter cscmcpuCounter = new PerformanceCounter("Process", "% Processor Time", "cscm");
+                PerformanceCounter cscmramCounter = new PerformanceCounter("Process", "Working Set", "cscm");
+                PerformanceCounter orbitalcpuCounter = new PerformanceCounter("Process", "% Processor Time", "orbital");
+                PerformanceCounter orbitalramCounter = new PerformanceCounter("Process", "Working Set", "orbital");
+                sfccpuCounter.NextValue();
+                cscmcpuCounter.NextValue();
+                orbitalcpuCounter.NextValue();
 
                 // Give some time to accumulate data
                 Thread.Sleep(1000);
 
                 // Divide the cpu response by the number of processors
-                float current_sfc_cpu = sfcperfCounter.NextValue() / Environment.ProcessorCount;
-                float current_cscm_cpu = cscmperfCounter.NextValue() / Environment.ProcessorCount;
-                float current_orbital_cpu = orbitalperfCounter.NextValue() / Environment.ProcessorCount;
+                float current_sfc_cpu = sfccpuCounter.NextValue() / Environment.ProcessorCount;
+                float current_cscm_cpu = cscmcpuCounter.NextValue() / Environment.ProcessorCount;
+                float current_orbital_cpu = orbitalcpuCounter.NextValue() / Environment.ProcessorCount;
+                
+                // Calculate RAM in MB
+                float current_sfc_ram = sfcramCounter.NextValue() / 1024 / 1024;
+                float current_cscm_ram = cscmramCounter.NextValue() / 1024 / 1024;
+                float current_orbital_ram = orbitalramCounter.NextValue() / 1024 / 1024;
+                
+                // Get totals
                 float total_cpu = current_sfc_cpu + current_cscm_cpu + current_orbital_cpu;
+                float total_ram = current_sfc_ram + current_cscm_ram + current_orbital_ram;
+
+                // Compare current with max and change if necessary
                 if (current_sfc_cpu > Running.max_sfc_cpu) { Running.max_sfc_cpu = current_sfc_cpu; }
+                if (current_sfc_ram > Running.max_sfc_ram) { Running.max_sfc_ram = current_sfc_ram; }
                 if (current_cscm_cpu > Running.max_cscm_cpu) { Running.max_cscm_cpu = current_cscm_cpu; }
+                if (current_cscm_ram > Running.max_cscm_ram) { Running.max_cscm_ram = current_cscm_ram; }
                 if (current_orbital_cpu > Running.max_orbital_cpu) { Running.max_orbital_cpu = current_orbital_cpu; }
+                if (current_orbital_ram > Running.max_orbital_ram) { Running.max_orbital_ram = current_orbital_ram; }
                 if (total_cpu > Running.max_cpu) { Running.max_cpu = total_cpu; }
+                if (total_ram > Running.max_ram) { Running.max_ram = total_ram; }
+
+                // Create a set of 3 dots for a dynamic message
+                if (Running.dots.Length == 1) { Running.dots = ".."; }
+                else if (Running.dots.Length == 2) { Running.dots = "..."; Running.diskSize = GetDirectorySize(); }
+                else { Running.dots = "."; }
+
                 // Tuple has a limit of 7 items so you have to use a nested Tuple
                 backgroundWorker1.ReportProgress(0, Tuple.Create(
-                    current_sfc_cpu, current_cscm_cpu, current_orbital_cpu, total_cpu, Running.max_sfc_cpu, Running.max_cscm_cpu, 
-                    Tuple.Create(Running.max_orbital_cpu, Running.max_cpu)));
+                    Tuple.Create(current_sfc_cpu, current_cscm_cpu, current_orbital_cpu, total_cpu),
+                    Tuple.Create(Running.max_sfc_cpu, Running.max_cscm_cpu, Running.max_orbital_cpu, Running.max_cpu),
+                    Tuple.Create(current_sfc_ram, current_cscm_ram, current_orbital_ram, total_ram),
+                    Tuple.Create(Running.max_sfc_ram, Running.max_cscm_ram, Running.max_orbital_ram, Running.max_ram),
+                    Running.diskSize, Running.dots));
             }
         }
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            var args = (Tuple<float, float, float, float, float, float, Tuple<float, float>>)e.UserState;
-            this.CPUUsageText.Text = $"{args.Item1} %";
-            this.cscmCPUUSageText.Text = $"{args.Item2} %";
-            this.orbitalCPUUsageText.Text = $"{args.Item3} %";
-            this.TotalCPUText.Text = $"{args.Item4} %";
-            this.sfcMaxCPUText.Text = $"{args.Item5} %";
-            this.cscmMaxCPUText.Text = $"{args.Item6} %";
-            this.orbitalMaxCPUText.Text = $"{args.Item7.Item1} %";
-            this.MaxCPUText.Text = $"{args.Item7.Item2} %";
+            var args = (Tuple<Tuple<float, float, float, float>, Tuple<float, float, float, float>,
+                Tuple<float, float, float, float>, Tuple<float, float, float, float>, long, string>)e.UserState;
+            this.CPUUsageText.Text = $"{args.Item1.Item1} %";
+            this.cscmCPUUSageText.Text = $"{args.Item1.Item2} %";
+            this.orbitalCPUUsageText.Text = $"{args.Item1.Item3} %";
+            this.TotalCPUText.Text = $"{args.Item1.Item4} %";
+            this.sfcMaxCPUText.Text = $"{args.Item2.Item1} %";
+            this.cscmMaxCPUText.Text = $"{args.Item2.Item2} %";
+            this.orbitalMaxCPUText.Text = $"{args.Item2.Item3} %";
+            this.MaxCPUText.Text = $"{args.Item2.Item4} %";
+            this.sfcRAMText.Text = $"{args.Item3.Item1} MB";
+            this.cscmRAMText.Text = $"{args.Item3.Item2} MB";
+            this.orbitalRAMText.Text = $"{args.Item3.Item3} MB";
+            this.TotalMemoryText.Text = $"{args.Item3.Item4} MB";
+            this.sfcMaxRAMText.Text = $"{args.Item4.Item1} MB";
+            this.cscmMaxRAMText.Text = $"{args.Item4.Item2} MB";
+            this.orbitalMaxRAMText.Text = $"{args.Item4.Item3} MB";
+            this.MaxRAMText.Text = $"{args.Item4.Item4} MB";
+            this.TotalDiskText.Text = $"{args.Item5} MB";
+            this.StatusText.Text = $"Running {args.Item6}";
+        }
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            StatusText.Text = "Press Start to Continue";
         }
         static class Running
         {
+            // variables to use in the running loop
             public static bool running;
             public static float max_cpu = 0;
+            public static float max_ram = 0;
             public static float max_sfc_cpu = 0;
+            public static float max_sfc_ram = 0;
             public static float max_cscm_cpu = 0;
+            public static float max_cscm_ram = 0;
             public static float max_orbital_cpu = 0;
+            public static float max_orbital_ram = 0;
+            public static long diskSize = 0;
+            public static string dots = ".";
+        }
+        static long GetDirectorySize()
+        {
+            // Get array of all file names.
+            string[] AMPfiles = Directory.GetFiles(@"C:\Program Files\Cisco\AMP", "*.*");
+            string[] Orbitalfiles = Directory.GetFiles(@"C:\Program Files\Cisco\Orbital", "*.*");
+
+            // Calculate total bytes of all files in a loop.
+            long fileBytes = 0;
+            fileBytes += parseDir(AMPfiles);
+            fileBytes += parseDir(Orbitalfiles);
+            // Return total size
+            return fileBytes;
+        }
+        static long parseDir(string[] files)
+        {
+            long fileBytes = 0;
+            foreach (string name in files)
+            {
+                // Use FileInfo to get length of each file.
+                FileInfo info = new FileInfo(name);
+                fileBytes += info.Length;
+            }
+            return fileBytes / 1024 / 1024;
         }
         public void StartButton_Click(object sender, RoutedEventArgs e)
         {
@@ -103,9 +175,9 @@ namespace CiscoSecureEndpointResourceMonitor
             // Enabled/Disable button if the other is pressed
             StartButton.IsEnabled = true;
             StopButton.IsEnabled = false;
-            StatusText.Text = "Press Start to Continue";
             backgroundWorker1.CancelAsync();
             Running.running = false;
+            
         }
         public void pullXMLFileInfo(string path, string current_version)
         {
