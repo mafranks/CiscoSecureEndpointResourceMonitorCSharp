@@ -48,9 +48,9 @@
         <TextBlock HorizontalAlignment="Left" Margin="47,431,0,0" TextWrapping="Wrap" Text="Memory" VerticalAlignment="Top" FontSize="14"/>
         <TextBlock HorizontalAlignment="Left" Margin="47,457,0,0" TextWrapping="Wrap" Text="CPU" VerticalAlignment="Top" FontSize="14"/>
         <TextBlock HorizontalAlignment="Left" Margin="47,485,0,0" TextWrapping="Wrap" Text="Disk" VerticalAlignment="Top" FontSize="14"/>
-        <TextBlock x:Name="TotalMemoryText" HorizontalAlignment="Left" Margin="128,431,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top" FontSize="14"/>
-        <TextBlock x:Name="TotalCPUText" HorizontalAlignment="Left" Margin="128,457,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top" FontSize="14"/>
-        <TextBlock x:Name="TotalDiskText" HorizontalAlignment="Left" Margin="128,485,0,0" TextWrapping="Wrap" Text="0 MB" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock x:Name="TotalMemoryText" HorizontalAlignment="Left" Margin="116,431,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock x:Name="TotalCPUText" HorizontalAlignment="Left" Margin="116,457,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock x:Name="TotalDiskText" HorizontalAlignment="Left" Margin="116,485,0,0" TextWrapping="Wrap" Text="0 MB" VerticalAlignment="Top" FontSize="14"/>
         <TextBlock HorizontalAlignment="Left" Margin="405,142,0,0" TextWrapping="Wrap" Text="Process" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="405,164,0,0" TextWrapping="Wrap" Text="MEM Usage" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="405,189,0,0" TextWrapping="Wrap" Text="MEM Usage Max" VerticalAlignment="Top"/>
@@ -70,17 +70,17 @@
         <TextBlock HorizontalAlignment="Left" Margin="523,164,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="523,189,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock x:Name="CPUUsageText" HorizontalAlignment="Left" Margin="523,211,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="523,234,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
+        <TextBlock x:Name="sfcMaxCPUText" HorizontalAlignment="Left" Margin="523,234,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="523,272,0,0" TextWrapping="Wrap" Text="cscm" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="523,294,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="523,317,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock x:Name="cscmCPUUSageText" HorizontalAlignment="Left" Margin="523,340,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="523,363,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
+        <TextBlock x:Name="cscmMaxCPUText" HorizontalAlignment="Left" Margin="523,363,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="523,400,0,0" TextWrapping="Wrap" Text="orbital" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="523,422,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="523,447,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock x:Name="orbitalCPUUsageText" HorizontalAlignment="Left" Margin="523,469,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="523,491,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
+        <TextBlock x:Name="orbitalMaxCPUText" HorizontalAlignment="Left" Margin="523,491,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="46,554,0,0" TextWrapping="Wrap" Text="Version &amp; Build" VerticalAlignment="Top" FontSize="14"/>
         <TextBlock HorizontalAlignment="Left" Margin="46,579,0,0" TextWrapping="Wrap" Text="Policy" VerticalAlignment="Top" FontSize="14"/>
         <TextBlock HorizontalAlignment="Left" Margin="46,604,0,0" TextWrapping="Wrap" Text="Policy UUID" VerticalAlignment="Top" FontSize="14"/>
@@ -91,6 +91,10 @@
         <TextBlock x:Name="PolicyUUIDText" HorizontalAlignment="Left" Margin="179,604,0,0" TextWrapping="Wrap" Text="abcdabcd-1234-abcd-1234-abcdabcd" VerticalAlignment="Top" FontSize="14"/>
         <TextBlock x:Name="PolicySerialText" HorizontalAlignment="Left" Margin="179,629,0,0" TextWrapping="Wrap" Text="000" VerticalAlignment="Top" FontSize="14"/>
         <TextBlock x:Name="TETRAVersionText" HorizontalAlignment="Left" Margin="179,653,0,0" TextWrapping="Wrap" Text="00000" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock HorizontalAlignment="Left" Margin="212,457,0,0" TextWrapping="Wrap" Text="Max CPU" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock x:Name="MaxCPUText" HorizontalAlignment="Left" Margin="280,457,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock HorizontalAlignment="Left" Margin="212,431,0,0" TextWrapping="Wrap" Text="Max MEM" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock x:Name="MaxMEXText_Copy" HorizontalAlignment="Left" Margin="280,431,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top" FontSize="14"/>
 
     </Grid>
 </Window>

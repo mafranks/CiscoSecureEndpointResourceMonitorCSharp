@@ -57,23 +57,36 @@ namespace CiscoSecureEndpointResourceMonitor
                 float current_sfc_cpu = sfcperfCounter.NextValue() / Environment.ProcessorCount;
                 float current_cscm_cpu = cscmperfCounter.NextValue() / Environment.ProcessorCount;
                 float current_orbital_cpu = orbitalperfCounter.NextValue() / Environment.ProcessorCount;
-                Trace.WriteLine($"sfc CPU: {current_sfc_cpu}");
-                Trace.WriteLine($"cscm CPU: {current_cscm_cpu}");
-                Trace.WriteLine($"orbital CPU: {current_orbital_cpu}");
-                backgroundWorker1.ReportProgress(0, new Tuple<float, float, float>(current_sfc_cpu, current_cscm_cpu, current_orbital_cpu));
+                float total_cpu = current_sfc_cpu + current_cscm_cpu + current_orbital_cpu;
+                if (current_sfc_cpu > Running.max_sfc_cpu) { Running.max_sfc_cpu = current_sfc_cpu; }
+                if (current_cscm_cpu > Running.max_cscm_cpu) { Running.max_cscm_cpu = current_cscm_cpu; }
+                if (current_orbital_cpu > Running.max_orbital_cpu) { Running.max_orbital_cpu = current_orbital_cpu; }
+                if (total_cpu > Running.max_cpu) { Running.max_cpu = total_cpu; }
+                // Tuple has a limit of 7 items so you have to use a nested Tuple
+                backgroundWorker1.ReportProgress(0, Tuple.Create(
+                    current_sfc_cpu, current_cscm_cpu, current_orbital_cpu, total_cpu, Running.max_sfc_cpu, Running.max_cscm_cpu, 
+                    Tuple.Create(Running.max_orbital_cpu, Running.max_cpu)));
             }
         }
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            var args = (Tuple<float, float, float>)e.UserState;
-            this.CPUUsageText.Text = $"{args.Item1.ToString()} %";
-            this.cscmCPUUSageText.Text = $"{args.Item2.ToString()} %";
-            this.orbitalCPUUsageText.Text = $"{args.Item3.ToString()} %";
+            var args = (Tuple<float, float, float, float, float, float, Tuple<float, float>>)e.UserState;
+            this.CPUUsageText.Text = $"{args.Item1} %";
+            this.cscmCPUUSageText.Text = $"{args.Item2} %";
+            this.orbitalCPUUsageText.Text = $"{args.Item3} %";
+            this.TotalCPUText.Text = $"{args.Item4} %";
+            this.sfcMaxCPUText.Text = $"{args.Item5} %";
+            this.cscmMaxCPUText.Text = $"{args.Item6} %";
+            this.orbitalMaxCPUText.Text = $"{args.Item7.Item1} %";
+            this.MaxCPUText.Text = $"{args.Item7.Item2} %";
         }
         static class Running
         {
             public static bool running;
-            //public static float current_cpu;
+            public static float max_cpu = 0;
+            public static float max_sfc_cpu = 0;
+            public static float max_cscm_cpu = 0;
+            public static float max_orbital_cpu = 0;
         }
         public void StartButton_Click(object sender, RoutedEventArgs e)
         {
