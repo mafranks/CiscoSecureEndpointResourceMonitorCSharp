@@ -8,6 +8,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 using System.Xml;
+using Microsoft.Win32;
 
 namespace CiscoSecureEndpointResourceMonitor
 {
@@ -17,11 +18,8 @@ namespace CiscoSecureEndpointResourceMonitor
         public MainWindow()
         {
             InitializeComponent();
-            var path = "C:/Program Files/Cisco/AMP";
-            // Pull all subdirectories from the AMP directory and parse for version numbers
-            var directories = Directory.GetDirectories(path);
-            var current_version = showMatch(directories, @"\d{1,2}\.\d{1,2}\.\d{1,2}");
-            pullXMLFileInfo(path, current_version);
+            findPath();
+            pullXMLFileInfo();
             Running.running = true;
             ResetButton.IsEnabled = false;
             // This youtube video is amazing for BackgroundWorker explanation!
@@ -37,6 +35,39 @@ namespace CiscoSecureEndpointResourceMonitor
             backgroundWorker1.WorkerReportsProgress = true;
             //Allow worker to be cancelled
             backgroundWorker1.WorkerSupportsCancellation = true;
+            
+        }
+        public void findPath()
+        {
+            // Allows for non-default directory installations
+            using (RegistryKey key = Registry.LocalMachine.OpenSubKey("Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Immunet Protect"))
+            {
+                string message = "Unable to find AMP install directory.";
+                string title = "Path Error";
+                if (key != null)
+                {
+                    Object temp_path = key.GetValue("UninstallString");
+                    if (temp_path != null)
+                    {
+                        List<string> path_list = new List<string>(temp_path.ToString().Trim('"').Split('\\'));
+                        path_list.RemoveAt(path_list.Count - 1); // Removes uninstall.exe
+                        string version_test = path_list[path_list.Count - 1];
+                        path_list.RemoveAt(path_list.Count - 1); // Removes the version
+                        string path = string.Join("\\", path_list);
+                        Running.current_version = version_test;
+                        Running.path = path;
+                    }
+                    else 
+                    {
+                        MessageBox.Show(message, title);
+                    }
+                }
+                else 
+                {
+                    MessageBox.Show(message, title);
+                }
+            }
+
         }
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -143,11 +174,13 @@ namespace CiscoSecureEndpointResourceMonitor
             public static float current_orbital_ram = 0;
             public static float max_orbital_cpu = 0;
             public static float max_orbital_ram = 0;
+            public static string current_version = "0.0.0";
+            public static string path = @"C:\Program Files\Cisco\AMP";
         }
         static long GetDirectorySize()
         {
             // Get array of all file names.
-            string[] AMPfiles = Directory.GetFiles(@"C:\Program Files\Cisco\AMP", "*.*");
+            string[] AMPfiles = Directory.GetFiles(Running.path, "*.*");
             
             // Calculate total bytes of all files in a loop.
             long fileBytes = 0;
@@ -156,7 +189,7 @@ namespace CiscoSecureEndpointResourceMonitor
 
             if (Running.orbital == 1)
             {
-                string[] Orbitalfiles = Directory.GetFiles(@"C:\Program Files\Cisco\Orbital", "*.*");
+                string[] Orbitalfiles = Directory.GetFiles(Running.path, "*.*");
                 fileBytes += parseDir(Orbitalfiles);
                 // Return total size
             }
@@ -225,7 +258,7 @@ namespace CiscoSecureEndpointResourceMonitor
             MaxRAMText.Text = "0 MB";
             TotalDiskText.Text = "0 MB";
         }
-        public void pullXMLFileInfo(string path, string current_version)
+        public void pullXMLFileInfo()
         {
             //Create lists for XML traversal
             List<string> build_list = new List<string> { "agent", "revision" };
@@ -245,11 +278,11 @@ namespace CiscoSecureEndpointResourceMonitor
 
             // Create and read from the XML file(s)
             XmlDocument policy_xml = new XmlDocument();
-            policy_xml.Load($"{path}/policy.xml");
+            policy_xml.Load($"{Running.path}/policy.xml");
             XmlDocument global_xml = new XmlDocument();
-            global_xml.Load($"{path}/{current_version}/global.xml");
+            global_xml.Load($"{Running.path}/{Running.current_version}/global.xml");
             XmlDocument local_xml = new XmlDocument();
-            local_xml.Load($"{path}/local.xml");
+            local_xml.Load($"{Running.path}/local.xml");
             string build = parseXML(global_xml, build_list, 0);
             string policy_uuid = parseXML(policy_xml, policy_uuid_list, 0);
             string policy_name = parseXML(policy_xml, policy_name_list, 0);
@@ -266,11 +299,18 @@ namespace CiscoSecureEndpointResourceMonitor
             string orbital = parseXML(policy_xml, orbital_list, 0);
 
             // Populate the GUI
-            VersionText.Text = $"{current_version}.{build}";
+            VersionText.Text = $"{Running.current_version}.{build}";
             PolicyNameText.Text = policy_name;
             PolicyUUIDText.Text = policy_uuid;
             PolicySerialText.Text = policy_serial;
-            TETRAVersionText.Text = $"{tetra_version.Split(':')[1]}";
+            try 
+            {
+                TETRAVersionText.Text = $"{tetra_version.Split(':')[1]}"; 
+            }
+            catch
+            {
+                TETRAVersionText.Text = "Not yet available";
+            }
 
             // Populate engines
             FileScanRect.Fill = new SolidColorBrush(Color.FromRgb(51, 165, 50)); 
@@ -295,49 +335,5 @@ namespace CiscoSecureEndpointResourceMonitor
             string item1 = XMLNodeList[depth][list[1]].InnerText;
             return item1;
         }
-        public string showMatch(string[] directories, string expr)
-        {
-            // Walk through each regex response for version and replace if it is higher
-            var current_version = "0.0.0";
-            var matches = new List<string>();
-            foreach (string dir in directories)
-            {
-                var mc = Regex.Match(dir, expr);
-                // Check for null to remove blank regex responses
-                if (mc.ToString() == "") { }
-                else
-                {
-                    var this_match = mc.ToString();
-                    matches.Add(this_match);
-                }
-            }
-            foreach (var match in matches)
-            {
-                string[] current_sections = current_version.Split('.');
-                string[] possible_sections = match.Split('.');
-                int x = Int32.Parse(current_sections[0]);
-                int y = Int32.Parse(possible_sections[0]);
-                if (y > x)
-                {
-                    current_version = match;
-                }
-                else if (int.Parse(possible_sections[0]) == int.Parse(current_sections[0]))
-                {
-                    if (int.Parse(possible_sections[1]) > int.Parse(current_sections[1]))
-                    {
-                        current_version = match;
-                    }
-                    else if (int.Parse(possible_sections[1]) == int.Parse(current_sections[1]))
-                    {
-                        if (int.Parse(possible_sections[2]) > int.Parse(current_sections[2]))
-                        {
-                            current_version = match;
-                        }
-                    }
-                }
-            } return current_version;
-        }
-
-
     }
 }
