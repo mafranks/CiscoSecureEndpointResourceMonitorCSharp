@@ -180,7 +180,7 @@ namespace CiscoSecureEndpointResourceMonitor
         static long GetDirectorySize()
         {
             // Get array of all file names.
-            string[] AMPfiles = Directory.GetFiles(Running.path, "*.*");
+            string[] AMPfiles = Directory.GetFiles(Running.path, "*.*", SearchOption.AllDirectories);
             
             // Calculate total bytes of all files in a loop.
             long fileBytes = 0;
@@ -189,7 +189,7 @@ namespace CiscoSecureEndpointResourceMonitor
 
             if (Running.orbital == 1)
             {
-                string[] Orbitalfiles = Directory.GetFiles(Running.path, "*.*");
+                string[] Orbitalfiles = Directory.GetFiles(Running.path, "*.*", SearchOption.AllDirectories);
                 fileBytes += parseDir(Orbitalfiles);
                 // Return total size
             }
@@ -203,7 +203,11 @@ namespace CiscoSecureEndpointResourceMonitor
             {
                 // Use FileInfo to get length of each file.
                 FileInfo info = new FileInfo(name);
-                fileBytes += info.Length;
+                // Check to ensure the file exists before checking length - allows for temp files that might be gone
+                if (info.Exists)
+                {
+                    fileBytes += info.Length;
+                }
             }
             return fileBytes / 1024 / 1024;
         }
@@ -322,8 +326,11 @@ namespace CiscoSecureEndpointResourceMonitor
             List<string> opts_list = new List<string>() { "0x0000012B", "0x0000033B" };
             if (opts_list.Contains(exprev4_options)){ ScriptControlRect.Fill = new SolidColorBrush(Color.FromRgb(51, 165, 50)); }
             if (behavioral_protection == "1") { BehavioralProtectionRect.Fill = new SolidColorBrush(Color.FromRgb(51, 165, 50)); }
-            if (tetra == "1") { TETRARect.Fill = new SolidColorBrush(Color.FromRgb(51, 165, 50)); }
-            if (orbital == "1" & Directory.Exists(@"C:\Program Files\Cisco\Orbital")) 
+            if (tetra == "1" & Directory.Exists($"{Running.path}\\tetra")) 
+                {    
+                TETRARect.Fill = new SolidColorBrush(Color.FromRgb(51, 165, 50)); 
+            }
+            if (orbital == "1" & Directory.Exists($"{Running.path}\\Orbital")) 
             { 
                 OrbitalRect.Fill = new SolidColorBrush(Color.FromRgb(51, 165, 50)); 
                 Running.orbital = 1; 
@@ -332,8 +339,12 @@ namespace CiscoSecureEndpointResourceMonitor
         public string parseXML(XmlDocument xml, List<string> list, int depth)
         {
             XmlNodeList XMLNodeList = xml.GetElementsByTagName(list[0]);
-            string item1 = XMLNodeList[depth][list[1]].InnerText;
-            return item1;
+            if (XMLNodeList[depth][list[1]] != null)
+            {
+                string item1 = XMLNodeList[depth][list[1]].InnerText;
+                return item1;
+            }
+            else { return ""; }
         }
     }
 }
