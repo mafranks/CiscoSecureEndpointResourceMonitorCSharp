@@ -53,8 +53,12 @@ namespace CiscoSecureEndpointResourceMonitor
                         string version_test = path_list[path_list.Count - 1];
                         path_list.RemoveAt(path_list.Count - 1); // Removes the version
                         string path = string.Join("\\", path_list);
+                        path_list.RemoveAt(path_list.Count - 1); // Removes AMP
+                        path_list.Add("Orbital"); // Adds Orbital
+                        string orbital_path = string.Join("\\", path_list);
                         Running.current_version = version_test;
                         Running.path = path;
+                        Running.orbital_path = orbital_path;
                     }
                     else 
                     {
@@ -175,6 +179,8 @@ namespace CiscoSecureEndpointResourceMonitor
             public static float max_orbital_ram = 0;
             public static string current_version = "0.0.0";
             public static string path = @"C:\Program Files\Cisco\AMP";
+            public static string orbital_path = @"C:\Program Files\Cisco\Orbital";
+            public static string tetra_def_version = "0";
         }
         static long GetDirectorySize()
         {
@@ -188,7 +194,7 @@ namespace CiscoSecureEndpointResourceMonitor
 
             if (Running.orbital == 1)
             {
-                string[] Orbitalfiles = Directory.GetFiles(Running.path, "*.*", SearchOption.AllDirectories);
+                string[] Orbitalfiles = Directory.GetFiles(Running.orbital_path, "*.*", SearchOption.AllDirectories);
                 fileBytes += parseDir(Orbitalfiles);
                 // Return total size
             }
@@ -289,8 +295,9 @@ namespace CiscoSecureEndpointResourceMonitor
             string build = parseXML(global_xml, build_list, 0);
             string policy_uuid = parseXML(policy_xml, policy_uuid_list, 0);
             string policy_name = parseXML(policy_xml, policy_name_list, 0);
-            string policy_serial = parseXML(policy_xml, policy_serial_list, 0);
-            string tetra_version = parseXML(local_xml, tetra_version_list, 1);
+            string policy_serial = parseXML(policy_xml, policy_serial_list, 0); 
+            try { Running.tetra_def_version = parseXML(local_xml, tetra_version_list, 1); }
+            catch { Running.tetra_def_version = "0"; }
             string network = parseXML(policy_xml, network_list, 1);
             string MAP = parseXML(policy_xml, MAP_list, 0);
             string script_protection = parseXML(policy_xml, script_protection_list, 0);
@@ -308,7 +315,7 @@ namespace CiscoSecureEndpointResourceMonitor
             PolicySerialText.Text = policy_serial;
             try 
             {
-                TETRAVersionText.Text = $"{tetra_version.Split(':')[1]}"; 
+                TETRAVersionText.Text = $"{Running.tetra_def_version.Split(':')[1]}"; 
             }
             catch
             {
@@ -325,11 +332,11 @@ namespace CiscoSecureEndpointResourceMonitor
             List<string> opts_list = new List<string>() { "0x0000012B", "0x0000033B" };
             if (opts_list.Contains(exprev4_options)){ ScriptControlRect.Fill = new SolidColorBrush(Color.FromRgb(51, 165, 50)); }
             if (behavioral_protection == "1") { BehavioralProtectionRect.Fill = new SolidColorBrush(Color.FromRgb(51, 165, 50)); }
-            if (tetra == "1" & Directory.Exists($"{Running.path}\\tetra")) 
+            if (tetra == "1" & Directory.Exists($"{Running.path}\\tetra") & Running.tetra_def_version != "0") 
                 {    
                 TETRARect.Fill = new SolidColorBrush(Color.FromRgb(51, 165, 50)); 
             }
-            if (orbital == "1" & Directory.Exists($"{Running.path}\\Orbital")) 
+            if (orbital == "1" & File.Exists($"{Running.orbital_path}\\orbital.exe")) 
             { 
                 OrbitalRect.Fill = new SolidColorBrush(Color.FromRgb(51, 165, 50)); 
                 Running.orbital = 1; 
@@ -338,12 +345,12 @@ namespace CiscoSecureEndpointResourceMonitor
         public string parseXML(XmlDocument xml, List<string> list, int depth)
         {
             XmlNodeList XMLNodeList = xml.GetElementsByTagName(list[0]);
-            if (XMLNodeList[depth][list[1]] != null)
+            try
             {
                 string item1 = XMLNodeList[depth][list[1]].InnerText;
                 return item1;
             }
-            else { return ""; }
+            catch (NullReferenceException ex) { return "0"; }
         }
     }
 }
