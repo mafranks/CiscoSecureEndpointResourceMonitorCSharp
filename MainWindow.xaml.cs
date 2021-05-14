@@ -155,6 +155,24 @@ namespace CiscoSecureEndpointResourceMonitor
             this.MaxRAMText.Text = $"{args.Item4.Item4} MB";
             this.TotalDiskText.Text = $"{args.Item5} MB";
             this.StatusText.Text = $"Running {args.Item6}";
+            var timeStamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+            File.AppendAllText(Running.writePath, $"{timeStamp}, {this.CPUUsageText.Text}, {this.cscmCPUUSageText.Text}," +
+                    $"{this.orbitalCPUUsageText.Text}, {this.TotalCPUText.Text}, {this.sfcMaxCPUText.Text}," +
+                    $"{this.cscmMaxCPUText.Text}, {this.orbitalMaxCPUText.Text}, {this.MaxCPUText.Text}," +
+                    $"{this.sfcRAMText.Text}, {this.cscmRAMText.Text}, {this.orbitalRAMText.Text}," +
+                    $"{this.TotalMemoryText.Text}, {this.sfcMaxRAMText.Text}, {this.cscmMaxRAMText.Text}," +
+                    $"{this.orbitalMaxRAMText.Text}, {this.MaxRAMText.Text}, {this.TotalDiskText.Text}\n");
+        }
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            Running.export_checkbox = true;
+            exportCheckbox.IsEnabled = false;
+            using (StreamWriter writer = new StreamWriter(Running.writePath))
+            {
+                writer.WriteLine("Timestamp, SFC_CPU, CSCM_CPU, Orbital_CPU, Total_CPU, SFC_MAX_CPU, CSCM_MAX_CPU, " +
+                    "Orbital_MAX_CPU, Total_MAX_CPU, SFC_RAM, CSCM_RAM, Orbital_Ram, Total_RAM, SFC_MAX_RAM, " +
+                    "CSCM_MAX_RAM, Orbital_MAX_RAM, Total_MAX_RAM, Disk_Usage");
+            }
         }
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
@@ -181,6 +199,8 @@ namespace CiscoSecureEndpointResourceMonitor
             public static string path = @"C:\Program Files\Cisco\AMP";
             public static string orbital_path = @"C:\Program Files\Cisco\Orbital";
             public static string tetra_def_version = "0";
+            public static bool export_checkbox = false;
+            public static string writePath = "ResourceMonitor.csv";
         }
         static long GetDirectorySize()
         {

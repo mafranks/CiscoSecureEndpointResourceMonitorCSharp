@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CiscoSecureEndpointResourceMonitor"
         mc:Ignorable="d"
-        Title="Cisco Secure Endpoint Resource Monitor" Height="701" Width="675" Icon="Endpoint_Icon.png">
+        Title="Cisco Secure Endpoint Resource Monitor" Height="716" Width="675" Icon="Endpoint_Icon.png">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="386*"/>
@@ -96,6 +96,7 @@
         <TextBlock HorizontalAlignment="Left" Margin="212,379,0,0" TextWrapping="Wrap" Text="Max MEM" VerticalAlignment="Top" FontSize="14"/>
         <TextBlock x:Name="MaxRAMText" HorizontalAlignment="Left" Margin="280,379,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top" FontSize="14"/>
         <Button x:Name="ResetButton" Content="Reset" HorizontalAlignment="Left" Margin="568,39,0,0" VerticalAlignment="Top" Width="75" Click="ResetButton_Click_1"/>
+        <CheckBox x:Name="exportCheckbox" Content="Export Results to ResourceMonitor.csv" HorizontalAlignment="Left" Height="27" Margin="24,650,0,0" VerticalAlignment="Top" Width="287" FontSize="14" Checked="CheckBox_Checked"/>
 
     </Grid>
 </Window>
