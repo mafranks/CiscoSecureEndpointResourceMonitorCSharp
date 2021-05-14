@@ -372,5 +372,6 @@ namespace CiscoSecureEndpointResourceMonitor
             }
             catch (NullReferenceException ex) { return "0"; }
         }
+
     }
 }

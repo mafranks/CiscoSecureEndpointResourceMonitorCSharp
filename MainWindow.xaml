@@ -24,24 +24,24 @@
         <TextBlock HorizontalAlignment="Left" Margin="47,89,0,0" TextWrapping="Wrap" Text="Engines Enabled" VerticalAlignment="Top" FontSize="14"/>
         <Rectangle x:Name="RedBox" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="21" Margin="329,84,0,0" Stroke="Black" VerticalAlignment="Top" Width="23"/>
         <TextBlock HorizontalAlignment="Left" Margin="212,89,0,0" TextWrapping="Wrap" Text="Engines Disabled" VerticalAlignment="Top" FontSize="14"/>
-        <Rectangle x:Name="FileScanRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="47,124,0,0" Stroke="Black" VerticalAlignment="Top" Width="137"/>
+        <Rectangle x:Name="FileScanRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="47,124,0,0" Stroke="Black" VerticalAlignment="Top" Width="137" ToolTip="File hashing and scanning"/>
         <TextBlock HorizontalAlignment="Left" Margin="93,124,0,0" TextWrapping="Wrap" Text="File Scan" VerticalAlignment="Top" Height="23" FontSize="14"/>
-        <Rectangle x:Name="NetworkScanRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="212,124,0,0" Stroke="Black" VerticalAlignment="Top" Width="140"/>
-        <Rectangle x:Name="MAPRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="47,166,0,0" Stroke="Black" VerticalAlignment="Top" Width="137"/>
-        <Rectangle x:Name="ScriptProtectionRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="212,166,0,0" Stroke="Black" VerticalAlignment="Top" Width="140"/>
-        <Rectangle x:Name="SPPRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="47,209,0,0" Stroke="Black" VerticalAlignment="Top" Width="137"/>
-        <Rectangle x:Name="ExprevRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="212,209,0,0" Stroke="Black" VerticalAlignment="Top" Width="140"/>
-        <Rectangle x:Name="ScriptControlRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="47,253,0,0" Stroke="Black" VerticalAlignment="Top" Width="137"/>
+        <Rectangle x:Name="NetworkScanRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="212,124,0,0" Stroke="Black" VerticalAlignment="Top" Width="140" ToolTip="Device Flow Correlation - flag or block suspicious network activity"/>
+        <Rectangle x:Name="MAPRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="47,166,0,0" Stroke="Black" VerticalAlignment="Top" Width="137" ToolTip="Malicious Activity Protection - file encryption monitoring"/>
+        <Rectangle x:Name="ScriptProtectionRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="212,166,0,0" Stroke="Black" VerticalAlignment="Top" Width="140" ToolTip="Provides visibility into executing scripts"/>
+        <Rectangle x:Name="SPPRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="47,209,0,0" Stroke="Black" VerticalAlignment="Top" Width="137" ToolTip="System Process Protection - Protects critical Windows system processes"/>
+        <Rectangle x:Name="ExprevRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="212,209,0,0" Stroke="Black" VerticalAlignment="Top" Width="140" ToolTip="Defends from memory injection atacks"/>
+        <Rectangle x:Name="ScriptControlRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="47,253,0,0" Stroke="Black" VerticalAlignment="Top" Width="137" ToolTip="Prevents some DLLs from being loaded"/>
         <Rectangle x:Name="BehavioralProtectionRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="212,253,0,0" Stroke="Black" VerticalAlignment="Top" Width="140"/>
-        <Rectangle x:Name="TETRARect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="47,294,0,0" Stroke="Black" VerticalAlignment="Top" Width="137"/>
-        <Rectangle x:Name="OrbitalRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="212,294,0,0" Stroke="Black" VerticalAlignment="Top" Width="140"/>
+        <Rectangle x:Name="TETRARect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="47,294,0,0" Stroke="Black" VerticalAlignment="Top" Width="137" ToolTip="Full antivirus replacement - offline scanning, rootkit scanning, etc."/>
+        <Rectangle x:Name="OrbitalRect" Fill="#FFBB1E10" HorizontalAlignment="Left" Height="23" Margin="212,294,0,0" Stroke="Black" VerticalAlignment="Top" Width="140" ToolTip="Query endpoints for detailed information - https://orbital.amp.cisco.com"/>
         <TextBlock HorizontalAlignment="Left" Margin="241,124,0,0" TextWrapping="Wrap" Text="Network Scan" VerticalAlignment="Top" Height="23" FontSize="14"/>
         <TextBlock HorizontalAlignment="Left" Margin="103,166,0,0" TextWrapping="Wrap" Text="MAP" VerticalAlignment="Top" Height="23" FontSize="14"/>
         <TextBlock HorizontalAlignment="Left" Margin="231,166,0,0" TextWrapping="Wrap" Text="Script Protection" VerticalAlignment="Top" Height="23" FontSize="14"/>
         <TextBlock HorizontalAlignment="Left" Margin="105,209,0,0" TextWrapping="Wrap" Text="SPP" VerticalAlignment="Top" Height="23" FontSize="14"/>
         <TextBlock HorizontalAlignment="Left" Margin="227,209,0,0" TextWrapping="Wrap" Text="Exploit Prevention" VerticalAlignment="Top" Height="23" FontSize="14"/>
         <TextBlock HorizontalAlignment="Left" Margin="75,253,0,0" TextWrapping="Wrap" Text="Script Control" VerticalAlignment="Top" Height="23" FontSize="14"/>
-        <TextBlock HorizontalAlignment="Left" Margin="216,255,0,0" TextWrapping="Wrap" Text="Behavioral Protection" VerticalAlignment="Top" Height="23" FontSize="14" Width="138"/>
+        <TextBlock HorizontalAlignment="Left" Margin="216,255,0,0" TextWrapping="Wrap" Text="Behavioral Protection" VerticalAlignment="Top" Height="23" FontSize="14" Width="138" ToolTip="Enhances ability to detect and stop threats behaviorally"/>
         <TextBlock HorizontalAlignment="Left" Margin="99,294,0,0" TextWrapping="Wrap" Text="TETRA" VerticalAlignment="Top" Height="23" FontSize="14"/>
         <TextBlock HorizontalAlignment="Left" Margin="259,294,0,0" TextWrapping="Wrap" Text="Orbital" VerticalAlignment="Top" Height="23" FontSize="14"/>
         <TextBlock HorizontalAlignment="Left" Margin="81,345,0,0" TextWrapping="Wrap" Text="Secure Endpoint Total Resouces Used" VerticalAlignment="Top" FontSize="14"/>
@@ -66,17 +66,17 @@
         <TextBlock HorizontalAlignment="Left" Margin="405,395,0,0" TextWrapping="Wrap" Text="MEM Usage Max" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="405,417,0,0" TextWrapping="Wrap" Text="CPU Usage" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="405,439,0,0" TextWrapping="Wrap" Text="CPU Usage Max" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="523,90,0,0" TextWrapping="Wrap" Text="sfc" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="523,90,0,0" TextWrapping="Wrap" Text="sfc" VerticalAlignment="Top" ToolTip="Main Cisco Secure Endpoint process"/>
         <TextBlock x:Name="sfcRAMText" HorizontalAlignment="Left" Margin="523,112,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock x:Name="sfcMaxRAMText" HorizontalAlignment="Left" Margin="523,137,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock x:Name="CPUUsageText" HorizontalAlignment="Left" Margin="523,159,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock x:Name="sfcMaxCPUText" HorizontalAlignment="Left" Margin="523,182,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="523,220,0,0" TextWrapping="Wrap" Text="cscm" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="523,220,0,0" TextWrapping="Wrap" Text="cscm" VerticalAlignment="Top" ToolTip="Registers and communicates with Windows Security Center"/>
         <TextBlock x:Name="cscmRAMText" HorizontalAlignment="Left" Margin="523,242,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock x:Name="cscmMaxRAMText" HorizontalAlignment="Left" Margin="523,265,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock x:Name="cscmCPUUSageText" HorizontalAlignment="Left" Margin="523,288,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock x:Name="cscmMaxCPUText" HorizontalAlignment="Left" Margin="523,311,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="523,348,0,0" TextWrapping="Wrap" Text="orbital" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="523,348,0,0" TextWrapping="Wrap" Text="orbital" VerticalAlignment="Top" ToolTip="Queries endpoint for detailed information"/>
         <TextBlock x:Name="orbitalRAMText" HorizontalAlignment="Left" Margin="523,370,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock x:Name="orbitalMaxRAMText" HorizontalAlignment="Left" Margin="523,395,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
         <TextBlock x:Name="orbitalCPUUsageText" HorizontalAlignment="Left" Margin="523,417,0,0" TextWrapping="Wrap" Text="0 %" VerticalAlignment="Top"/>
