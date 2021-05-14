@@ -5,3 +5,5 @@ If so, you can run this tool (with one of the latest versions of the product) an
 
 Just click Start to start collecting data and then run any tests you'd like.  
 Once completed, click Stop.  If you'd like to run another test with new data, click Reset to reset the statistics.
+
+![image](Screenshot_Main.png)
