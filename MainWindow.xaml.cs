@@ -84,8 +84,30 @@ namespace CiscoSecureEndpointResourceMonitor
                 PerformanceCounter cscmramCounter = new PerformanceCounter("Process", "Working Set", "cscm");
                 PerformanceCounter orbitalcpuCounter = new PerformanceCounter("Process", "% Processor Time", "orbital");
                 PerformanceCounter orbitalramCounter = new PerformanceCounter("Process", "Working Set", "orbital");
+                PerformanceCounter iptraycpuCounter = new PerformanceCounter("Process", "% Processor Time", "iptray");
+                PerformanceCounter iptrayramCounter = new PerformanceCounter("Process", "Working Set", "iptray");
+                PerformanceCounter connectivitytoolcpuCounter = new PerformanceCounter("Process", "% Processor Time", "connectivitytool");
+                PerformanceCounter connectivitytoolramCounter = new PerformanceCounter("Process", "Working Set", "connectivitytool");
+                PerformanceCounter ipsupporttoolcpuCounter = new PerformanceCounter("Process", "% Processor Time", "ipsupporttool");
+                PerformanceCounter ipsupporttoolramCounter = new PerformanceCounter("Process", "Working Set", "ipsupporttool");
+                PerformanceCounter updatercpuCounter = new PerformanceCounter("Process", "% Processor Time", "updater");
+                PerformanceCounter updaterramCounter = new PerformanceCounter("Process", "Working Set", "updater");
+                PerformanceCounter casetup64cpuCounter = new PerformanceCounter("Process", "% Processor Time", "casetup64");
+                PerformanceCounter casetup64ramCounter = new PerformanceCounter("Process", "Working Set", "casetup64");
+                PerformanceCounter freshclamcpuCounter = new PerformanceCounter("Process", "% Processor Time", "freshclam");
+                PerformanceCounter freshclamramCounter = new PerformanceCounter("Process", "Working Set", "freshclam");
+                PerformanceCounter freshclamwrapcpuCounter = new PerformanceCounter("Process", "% Processor Time", "freshclamwrap");
+                PerformanceCounter freshclamwrapramCounter = new PerformanceCounter("Process", "Working Set", "freshclamwrap");
+
                 sfccpuCounter.NextValue();
                 cscmcpuCounter.NextValue();
+                try { iptraycpuCounter.NextValue(); } catch (System.InvalidOperationException) { }
+                try { connectivitytoolcpuCounter.NextValue(); } catch (System.InvalidOperationException) { }
+                try { ipsupporttoolcpuCounter.NextValue(); } catch (System.InvalidOperationException) { }
+                try { updatercpuCounter.NextValue(); } catch (System.InvalidOperationException) { }
+                try { casetup64cpuCounter.NextValue(); } catch (System.InvalidOperationException) { }
+                try { freshclamcpuCounter.NextValue(); } catch (System.InvalidOperationException) { }
+                try { freshclamwrapcpuCounter.NextValue(); } catch (System.InvalidOperationException) { }
                 if (Running.orbital == 1)
                 {
                     orbitalcpuCounter.NextValue();
@@ -96,6 +118,20 @@ namespace CiscoSecureEndpointResourceMonitor
                 // Divide the cpu response by the number of processors
                 float current_sfc_cpu = sfccpuCounter.NextValue() / Environment.ProcessorCount;
                 float current_cscm_cpu = cscmcpuCounter.NextValue() / Environment.ProcessorCount;
+                try { Running.current_iptray_cpu = iptraycpuCounter.NextValue() / Environment.ProcessorCount; }
+                catch (System.InvalidOperationException) { Running.current_iptray_cpu = 0; }
+                try { Running.current_connectivitytool_cpu = connectivitytoolcpuCounter.NextValue() / Environment.ProcessorCount; }
+                catch (System.InvalidOperationException) { Running.current_connectivitytool_cpu = 0; }
+                try { Running.current_ipsupporttool_cpu = ipsupporttoolcpuCounter.NextValue() / Environment.ProcessorCount; }
+                catch (System.InvalidOperationException) { Running.current_ipsupporttool_cpu = 0; }
+                try { Running.current_updater_cpu = updatercpuCounter.NextValue() / Environment.ProcessorCount; }
+                catch (System.InvalidOperationException) { Running.current_updater_cpu = 0; }
+                try { Running.current_casetup64_cpu = casetup64cpuCounter.NextValue() / Environment.ProcessorCount; }
+                catch (System.InvalidOperationException) { Running.current_casetup64_cpu = 0; }
+                try { Running.current_freshclam_cpu = freshclamcpuCounter.NextValue() / Environment.ProcessorCount; }
+                catch (System.InvalidOperationException) { Running.current_freshclam_cpu = 0; }
+                try { Running.current_freshclamwrap_cpu = freshclamwrapcpuCounter.NextValue() / Environment.ProcessorCount; }
+                catch (System.InvalidOperationException) { Running.current_freshclamwrap_cpu = 0; }
                 if (Running.orbital == 1)
                 {
                     Running.current_orbital_cpu = orbitalcpuCounter.NextValue() / Environment.ProcessorCount;
@@ -104,10 +140,30 @@ namespace CiscoSecureEndpointResourceMonitor
                 // Calculate RAM in MB
                 float current_sfc_ram = sfcramCounter.NextValue() / 1024 / 1024;
                 float current_cscm_ram = cscmramCounter.NextValue() / 1024 / 1024;
+                try { Running.current_iptray_ram = iptrayramCounter.NextValue() / 1024 / 1024; }
+                catch (System.InvalidOperationException) { Running.current_iptray_ram = 0; }
+                try { Running.current_connectivitytool_ram = connectivitytoolramCounter.NextValue() / 1024 / 1024; }
+                catch (System.InvalidOperationException) { Running.current_connectivitytool_ram = 0; }
+                try { Running.current_ipsupporttool_ram = ipsupporttoolramCounter.NextValue() / 1024 / 1024; }
+                catch (System.InvalidOperationException) { Running.current_ipsupporttool_ram = 0; }
+                try { Running.current_updater_ram = updaterramCounter.NextValue() / 1024 / 1024; }
+                catch (System.InvalidOperationException) { Running.current_updater_ram = 0; }
+                try { Running.current_casetup64_ram = casetup64ramCounter.NextValue() / 1024 / 1024; }
+                catch (System.InvalidOperationException) { Running.current_casetup64_ram = 0; }
+                try { Running.current_freshclam_ram = freshclamramCounter.NextValue() / 1024 / 1024; }
+                catch (System.InvalidOperationException) { Running.current_freshclam_ram = 0; }
+                try { Running.current_freshclamwrap_ram = freshclamwrapramCounter.NextValue() / 1024 / 1024; }
+                catch (System.InvalidOperationException) { Running.current_freshclamwrap_ram = 0; }
                 
                 // Get totals
-                float total_cpu = current_sfc_cpu + current_cscm_cpu + Running.current_orbital_cpu;
-                float total_ram = current_sfc_ram + current_cscm_ram + Running.current_orbital_ram;
+                float total_cpu = current_sfc_cpu + current_cscm_cpu + Running.current_orbital_cpu + Running.current_iptray_cpu +
+                    Running.current_connectivitytool_cpu + Running.current_creport_cpu + Running.current_ipsupporttool_cpu +
+                    Running.current_updater_cpu + Running.current_casetup64_cpu + Running.current_freshclam_cpu +
+                    Running.current_freshclamwrap_cpu;
+                float total_ram = current_sfc_ram + current_cscm_ram + Running.current_orbital_ram + Running.current_iptray_ram +
+                    Running.current_connectivitytool_ram + Running.current_creport_ram + Running.current_ipsupporttool_ram +
+                    Running.current_updater_ram + Running.current_casetup64_ram + Running.current_freshclam_ram +
+                    Running.current_freshclamwrap_ram;
 
                 // Compare current with max and change if necessary
                 if (current_sfc_cpu > Running.max_sfc_cpu) { Running.max_sfc_cpu = current_sfc_cpu; }
@@ -116,6 +172,23 @@ namespace CiscoSecureEndpointResourceMonitor
                 if (current_cscm_ram > Running.max_cscm_ram) { Running.max_cscm_ram = current_cscm_ram; }
                 if (Running.current_orbital_cpu > Running.max_orbital_cpu) { Running.max_orbital_cpu = Running.current_orbital_cpu; }
                 if (Running.current_orbital_ram > Running.max_orbital_ram) { Running.max_orbital_ram = Running.current_orbital_ram; }
+                if (Running.current_iptray_cpu > Running.max_iptray_cpu) { Running.max_iptray_cpu = Running.current_iptray_cpu; }
+                if (Running.current_iptray_ram > Running.max_iptray_ram) { Running.max_iptray_ram = Running.current_iptray_ram; }
+                if (Running.current_connectivitytool_cpu > Running.max_connectivitytool_cpu) { Running.max_connectivitytool_cpu = Running.current_connectivitytool_cpu; }
+                if (Running.current_connectivitytool_ram > Running.max_connectivitytool_ram) { Running.max_connectivitytool_ram = Running.current_connectivitytool_ram; }
+                if (Running.current_creport_cpu > Running.max_creport_cpu) { Running.max_creport_cpu = Running.current_creport_cpu; }
+                if (Running.current_creport_ram > Running.max_creport_ram) { Running.max_creport_ram = Running.current_creport_ram; }
+                if (Running.current_ipsupporttool_cpu > Running.max_ipsupporttool_cpu) { Running.max_ipsupporttool_cpu = Running.current_ipsupporttool_cpu; }
+                if (Running.current_ipsupporttool_ram > Running.max_ipsupporttool_cpu) { Running.max_ipsupporttool_ram = Running.current_ipsupporttool_ram; }
+                if (Running.current_updater_cpu > Running.max_updater_cpu) { Running.max_updater_cpu = Running.current_updater_cpu; }
+                if (Running.current_updater_ram > Running.max_updater_ram) { Running.max_updater_ram = Running.current_updater_ram; }
+                if (Running.current_casetup64_cpu > Running.max_casetup64_cpu) { Running.max_casetup64_cpu = Running.current_casetup64_cpu; }
+                if (Running.current_casetup64_ram > Running.max_casetup64_ram) { Running.max_casetup64_ram = Running.current_casetup64_ram; }
+                if (Running.current_freshclam_cpu > Running.max_freshclam_cpu) { Running.max_freshclam_cpu = Running.current_freshclam_cpu; }
+                if (Running.current_freshclam_ram > Running.max_freshclam_ram) { Running.max_freshclam_ram = Running.current_freshclam_ram; }
+                if (Running.current_freshclamwrap_cpu > Running.max_freshclamwrap_cpu) { Running.max_freshclamwrap_cpu = Running.current_freshclamwrap_cpu; }
+                if (Running.current_freshclamwrap_ram > Running.max_freshclamwrap_ram) { Running.max_freshclamwrap_ram = Running.current_freshclamwrap_ram; }
+
                 if (total_cpu > Running.max_cpu) { Running.max_cpu = total_cpu; }
                 if (total_ram > Running.max_ram) { Running.max_ram = total_ram; }
 
@@ -124,44 +197,54 @@ namespace CiscoSecureEndpointResourceMonitor
                 else if (Running.dots.Length == 2) { Running.dots = "..."; Running.diskSize = GetDirectorySize(); }
                 else { Running.dots = "."; }
 
-                // Tuple has a limit of 7 items so you have to use a nested Tuple
-                backgroundWorker1.ReportProgress(0, Tuple.Create(
-                    Tuple.Create(current_sfc_cpu, current_cscm_cpu, Running.current_orbital_cpu, total_cpu),
-                    Tuple.Create(Running.max_sfc_cpu, Running.max_cscm_cpu, Running.max_orbital_cpu, Running.max_cpu),
-                    Tuple.Create(current_sfc_ram, current_cscm_ram, Running.current_orbital_ram, total_ram),
-                    Tuple.Create(Running.max_sfc_ram, Running.max_cscm_ram, Running.max_orbital_ram, Running.max_ram),
-                    Running.diskSize, Running.dots));
+                // Tuple has a limit of 7 items so you have to use nested Tuples to report progress to the main thread
+                backgroundWorker1.ReportProgress(0, Tuple.Create(current_sfc_cpu, current_cscm_cpu, total_cpu,
+                        current_sfc_ram, current_cscm_ram, total_ram));
             }
         }
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            var args = (Tuple<Tuple<float, float, float, float>, Tuple<float, float, float, float>,
-                Tuple<float, float, float, float>, Tuple<float, float, float, float>, long, string>)e.UserState;
-            this.CPUUsageText.Text = $"{args.Item1.Item1} %";
-            this.cscmCPUUSageText.Text = $"{args.Item1.Item2} %";
-            this.orbitalCPUUsageText.Text = $"{args.Item1.Item3} %";
-            this.TotalCPUText.Text = $"{args.Item1.Item4} %";
-            this.sfcMaxCPUText.Text = $"{args.Item2.Item1} %";
-            this.cscmMaxCPUText.Text = $"{args.Item2.Item2} %";
-            this.orbitalMaxCPUText.Text = $"{args.Item2.Item3} %";
-            this.MaxCPUText.Text = $"{args.Item2.Item4} %";
-            this.sfcRAMText.Text = $"{args.Item3.Item1} MB";
-            this.cscmRAMText.Text = $"{args.Item3.Item2} MB";
-            this.orbitalRAMText.Text = $"{args.Item3.Item3} MB";
-            this.TotalMemoryText.Text = $"{args.Item3.Item4} MB";
-            this.sfcMaxRAMText.Text = $"{args.Item4.Item1} MB";
-            this.cscmMaxRAMText.Text = $"{args.Item4.Item2} MB";
-            this.orbitalMaxRAMText.Text = $"{args.Item4.Item3} MB";
-            this.MaxRAMText.Text = $"{args.Item4.Item4} MB";
-            this.TotalDiskText.Text = $"{args.Item5} MB";
-            this.StatusText.Text = $"Running {args.Item6}";
-            var timeStamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
-            File.AppendAllText(Running.writePath, $"{timeStamp}, {this.CPUUsageText.Text}, {this.cscmCPUUSageText.Text}," +
-                    $"{this.orbitalCPUUsageText.Text}, {this.TotalCPUText.Text}, {this.sfcMaxCPUText.Text}," +
-                    $"{this.cscmMaxCPUText.Text}, {this.orbitalMaxCPUText.Text}, {this.MaxCPUText.Text}," +
-                    $"{this.sfcRAMText.Text}, {this.cscmRAMText.Text}, {this.orbitalRAMText.Text}," +
-                    $"{this.TotalMemoryText.Text}, {this.sfcMaxRAMText.Text}, {this.cscmMaxRAMText.Text}," +
-                    $"{this.orbitalMaxRAMText.Text}, {this.MaxRAMText.Text}, {this.TotalDiskText.Text}\n");
+            var args = (Tuple<float, float, float, float, float, float>)e.UserState;
+            CPUUsageText.Text = $"{args.Item1} %";
+            cscmCPUUSageText.Text = $"{args.Item2} %";
+            orbitalCPUUsageText.Text = $"{Running.current_orbital_cpu} %";
+            TotalCPUText.Text = $"{args.Item3} %";
+            sfcMaxCPUText.Text = $"{Running.max_sfc_cpu} %";
+            cscmMaxCPUText.Text = $"{Running.max_cscm_cpu} %";
+            orbitalMaxCPUText.Text = $"{Running.max_orbital_cpu} %";
+            MaxCPUText.Text = $"{Running.max_cpu} %";
+            sfcRAMText.Text = $"{args.Item4} MB";
+            cscmRAMText.Text = $"{args.Item5} MB";
+            orbitalRAMText.Text = $"{Running.current_orbital_ram} MB";
+            TotalMemoryText.Text = $"{args.Item6} MB";
+            sfcMaxRAMText.Text = $"{Running.max_sfc_ram} MB";
+            cscmMaxRAMText.Text = $"{Running.max_cscm_ram} MB";
+            orbitalMaxRAMText.Text = $"{Running.max_orbital_ram} MB";
+            MaxRAMText.Text = $"{Running.max_ram} MB";
+            TotalDiskText.Text = $"{Running.diskSize} MB";
+            StatusText.Text = $"Running {Running.dots}";
+            if (Running.export_checkbox == true)
+            {
+                var timeStamp = new DateTimeOffset(DateTime.UtcNow); //.ToUnixTimeSeconds();
+                File.AppendAllText(Running.writePath, $"{timeStamp} UTC, {Running.diskSize}MB, {TotalCPUText.Text}, " +
+                    $"{Running.max_cpu}%, {TotalMemoryText.Text}, {Running.max_ram}MB, {CPUUsageText.Text}, " +
+                    $"{cscmCPUUSageText.Text}, {Running.current_orbital_cpu}%, {Running.current_iptray_cpu}%, " +
+                    $"{Running.current_connectivitytool_cpu}%, {Running.current_creport_cpu}%, {Running.current_ipsupporttool_cpu}%, " +
+                    $"{Running.current_updater_cpu}%, {Running.current_casetup64_cpu}%, " +
+                    $"{Running.current_freshclam_cpu}%, {Running.current_freshclamwrap_cpu}%, " +
+                    $"{Running.max_sfc_cpu}%, {Running.max_cscm_cpu}%, {Running.max_orbital_cpu}%, {Running.max_iptray_cpu}%, " +
+                    $"{Running.max_connectivitytool_cpu}%, {Running.max_creport_cpu}%, {Running.max_ipsupporttool_cpu}%, " +
+                    $"{Running.max_updater_cpu}%, {Running.max_casetup64_cpu}%, {Running.max_freshclam_cpu}%, " +
+                    $"{Running.max_freshclamwrap_cpu}%, {sfcRAMText.Text}, {cscmRAMText.Text}, " +
+                    $"{Running.current_orbital_ram}MB, {Running.current_iptray_ram}MB, {Running.current_connectivitytool_ram}MB, " +
+                    $"{Running.current_creport_ram}MB, {Running.current_ipsupporttool_ram}MB, {Running.current_updater_ram}MB, " +
+                    $"{Running.current_casetup64_ram}MB, {Running.current_freshclam_ram}MB, {Running.current_freshclamwrap_ram}MB, " +
+                    $"{Running.max_sfc_ram}MB, {Running.max_cscm_ram}MB, {Running.max_orbital_ram}MB, " +
+                    $"{Running.max_iptray_ram}MB, {Running.max_connectivitytool_ram}MB, {Running.max_creport_ram}MB, " +
+                    $"{Running.max_ipsupporttool_ram}MB, {Running.max_updater_ram}MB, {Running.max_casetup64_ram}MB, " +
+                    $"{Running.max_freshclam_ram}MB, {Running.max_freshclamwrap_ram}MB\n");
+
+            }
         }
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
@@ -169,9 +252,18 @@ namespace CiscoSecureEndpointResourceMonitor
             exportCheckbox.IsEnabled = false;
             using (StreamWriter writer = new StreamWriter(Running.writePath))
             {
-                writer.WriteLine("Timestamp, SFC_CPU, CSCM_CPU, Orbital_CPU, Total_CPU, SFC_MAX_CPU, CSCM_MAX_CPU, " +
-                    "Orbital_MAX_CPU, Total_MAX_CPU, SFC_RAM, CSCM_RAM, Orbital_Ram, Total_RAM, SFC_MAX_RAM, " +
-                    "CSCM_MAX_RAM, Orbital_MAX_RAM, Total_MAX_RAM, Disk_Usage");
+                writer.WriteLine("Timestamp, Disk_Usage, Total_CPU, Total_MAX_CPU, Total_RAM, " +
+                    "Total_MAX_RAM, SFC_CPU, CSCM_CPU, Orbital_CPU, IPTray_CPU, " +
+                    "ConnectivityTool_CPU, Creport_CPU, IPSupportTool_CPU, Updater_CPU, Casetup64_CPU, " +
+                    "Freshclam_CPU, Freshclamwrap_CPU, SFC_MAX_CPU, CSCM_MAX_CPU, " +
+                    "Orbital_MAX_CPU, IPTray_MAX_CPU, ConnectivityTool_MAX_CPU, Creport_MAX_CPU, " +
+                    "IPSupportTool_MAX_CPU, Updater_MAX_CPU, Casetup64_MAX_CPU, Freshclam_MAX_CPU, " +
+                    "Freshclamwrap_MAX_CPU, SFC_RAM, CSCM_RAM, Orbital_RAM, IPTray_RAM, " +
+                    "ConnectivityTool_RAM,  Creport_RAM,  IPSupportTool_RAM, Updater_RAM, Casetup64_RAM, " +
+                    "Freshclam_RAM, Freshclamwrap_RAM, SFC_MAX_RAM, CSCM_MAX_RAM, " +
+                    "Orbital_MAX_RAM, IPTray_MAX_RAM, ConnecitivityTool_MAX_RAM, Creport_MAX_RAM, " +
+                    "IPSupportTool_MAX_RAM, Updater_MAX_RAM, Casetup64_MAX_RAM, Freshclam_MAX_RAM, " +
+                    "Freshclamwrap_MAX_RAM");
             }
         }
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -188,6 +280,38 @@ namespace CiscoSecureEndpointResourceMonitor
             public static float max_sfc_ram = 0;
             public static float max_cscm_cpu = 0;
             public static float max_cscm_ram = 0;
+            public static float current_iptray_ram = 0;
+            public static float max_iptray_ram = 0;
+            public static float current_iptray_cpu = 0;
+            public static float max_iptray_cpu = 0;
+            public static float current_connectivitytool_cpu = 0;
+            public static float max_connectivitytool_cpu = 0;
+            public static float current_connectivitytool_ram = 0;
+            public static float max_connectivitytool_ram = 0;
+            public static float current_creport_cpu = 0;
+            public static float max_creport_cpu = 0;
+            public static float current_creport_ram = 0;
+            public static float max_creport_ram = 0;
+            public static float current_ipsupporttool_cpu = 0;
+            public static float max_ipsupporttool_cpu = 0;
+            public static float current_ipsupporttool_ram = 0;
+            public static float max_ipsupporttool_ram = 0;
+            public static float current_updater_cpu = 0;
+            public static float max_updater_cpu = 0;
+            public static float current_updater_ram = 0;
+            public static float max_updater_ram = 0;
+            public static float current_casetup64_cpu = 0;
+            public static float max_casetup64_cpu = 0;
+            public static float current_casetup64_ram = 0;
+            public static float max_casetup64_ram = 0;
+            public static float current_freshclam_cpu = 0;
+            public static float max_freshclam_cpu = 0;
+            public static float current_freshclam_ram = 0;
+            public static float max_freshclam_ram = 0;
+            public static float current_freshclamwrap_cpu = 0;
+            public static float max_freshclamwrap_cpu = 0;
+            public static float current_freshclamwrap_ram = 0;
+            public static float max_freshclamwrap_ram = 0;
             public static long diskSize = 0;
             public static string dots = ".";
             public static int orbital = 0;
@@ -269,6 +393,22 @@ namespace CiscoSecureEndpointResourceMonitor
             Running.diskSize = 0;
             Running.max_orbital_cpu = 0;
             Running.max_orbital_ram = 0;
+            Running.max_casetup64_cpu = 0;
+            Running.max_casetup64_ram = 0;
+            Running.max_connectivitytool_cpu = 0;
+            Running.max_connectivitytool_ram = 0;
+            Running.max_creport_cpu = 0;
+            Running.max_creport_ram = 0;
+            Running.max_freshclamwrap_cpu = 0;
+            Running.max_freshclamwrap_ram = 0;
+            Running.max_freshclam_cpu = 0;
+            Running.max_freshclam_ram = 0;
+            Running.max_ipsupporttool_cpu = 0;
+            Running.max_ipsupporttool_ram = 0;
+            Running.max_iptray_cpu = 0;
+            Running.max_iptray_ram = 0;
+            Running.max_updater_cpu = 0;
+            Running.max_updater_ram = 0;
             CPUUsageText.Text = "0 %";
             cscmCPUUSageText.Text = "0 %";
             orbitalCPUUsageText.Text = "0 %";
