@@ -5,6 +5,7 @@ If so, download the exe above and you can run this tool (with one of the latest 
 I included all of the code so you can review it yourself if you have any concerns.
 
 Before you run the exe, be sure to unblock the file since this is a personal project and it is not signed by Cisco.
+
 Unblock-File -Path C:\Users\YOUR_USERNAME\Downloads\Cisco*
 
 Just click Start to start collecting data and then run any tests you'd like that you think Cisco Secure Endpoint is causing performance issues for.  
