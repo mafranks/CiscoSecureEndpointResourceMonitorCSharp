@@ -86,8 +86,8 @@ namespace CiscoSecureEndpointResourceMonitor
                 PerformanceCounter orbitalramCounter = new PerformanceCounter("Process", "Working Set", "orbital");
                 PerformanceCounter iptraycpuCounter = new PerformanceCounter("Process", "% Processor Time", "iptray");
                 PerformanceCounter iptrayramCounter = new PerformanceCounter("Process", "Working Set", "iptray");
-                PerformanceCounter connectivitytoolcpuCounter = new PerformanceCounter("Process", "% Processor Time", "connectivitytool");
-                PerformanceCounter connectivitytoolramCounter = new PerformanceCounter("Process", "Working Set", "connectivitytool");
+                PerformanceCounter connectivitytoolcpuCounter = new PerformanceCounter("Process", "% Processor Time", "ConnectivityTool");
+                PerformanceCounter connectivitytoolramCounter = new PerformanceCounter("Process", "Working Set", "ConnectivityTool");
                 PerformanceCounter ipsupporttoolcpuCounter = new PerformanceCounter("Process", "% Processor Time", "ipsupporttool");
                 PerformanceCounter ipsupporttoolramCounter = new PerformanceCounter("Process", "Working Set", "ipsupporttool");
                 PerformanceCounter updatercpuCounter = new PerformanceCounter("Process", "% Processor Time", "updater");
