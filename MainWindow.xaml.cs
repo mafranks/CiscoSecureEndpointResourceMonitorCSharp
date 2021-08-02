@@ -14,6 +14,7 @@ namespace CiscoSecureEndpointResourceMonitor
     public partial class MainWindow : Window
     {
         BackgroundWorker backgroundWorker1;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -223,7 +224,7 @@ namespace CiscoSecureEndpointResourceMonitor
             MaxRAMText.Text = $"{Running.max_ram} MB";
             TotalDiskText.Text = $"{Running.diskSize} MB";
             StatusText.Text = $"Running {Running.dots}";
-            if (Running.export_checkbox == true)
+            if (Running.export_checkbox == true && Running.log_time_elapsed == true)
             {
                 var timeStamp = new DateTimeOffset(DateTime.UtcNow); //.ToUnixTimeSeconds();
                 File.AppendAllText(Running.writePath, $"{timeStamp} UTC, {Running.diskSize}MB, {TotalCPUText.Text}, " +
@@ -243,13 +244,15 @@ namespace CiscoSecureEndpointResourceMonitor
                     $"{Running.max_iptray_ram}MB, {Running.max_connectivitytool_ram}MB, {Running.max_creport_ram}MB, " +
                     $"{Running.max_ipsupporttool_ram}MB, {Running.max_updater_ram}MB, {Running.max_casetup64_ram}MB, " +
                     $"{Running.max_freshclam_ram}MB, {Running.max_freshclamwrap_ram}MB\n");
-
+                Running.log_time_elapsed = false;
+                Running.aTimer.Start();
             }
         }
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
             Running.export_checkbox = true;
             exportCheckbox.IsEnabled = false;
+            duration.IsEnabled = false;
             using (StreamWriter writer = new StreamWriter(Running.writePath))
             {
                 writer.WriteLine("Timestamp, Disk_Usage, Total_CPU, Total_MAX_CPU, Total_RAM, " +
@@ -265,6 +268,21 @@ namespace CiscoSecureEndpointResourceMonitor
                     "IPSupportTool_MAX_RAM, Updater_MAX_RAM, Casetup64_MAX_RAM, Freshclam_MAX_RAM, " +
                     "Freshclamwrap_MAX_RAM");
             }
+
+            //System.Timers.Timer Running.aTimer = null;
+            if (Running.log_interval == 0) { Running.aTimer = new System.Timers.Timer(1000); }
+            else if (Running.log_interval == 1) { Running.aTimer = new System.Timers.Timer(30000); }
+            else if (Running.log_interval == 2) { Running.aTimer = new System.Timers.Timer(60000); }
+            else if (Running.log_interval == 3) { Running.aTimer = new System.Timers.Timer(300000); }
+            Running.aTimer.Elapsed += SetElapsed;
+            Running.aTimer.AutoReset = false;
+            Running.aTimer.Enabled = true;
+            
+        }
+
+        public static void SetElapsed(object sender, System.Timers.ElapsedEventArgs e) 
+        {
+            Running.log_time_elapsed = true;
         }
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
@@ -325,6 +343,9 @@ namespace CiscoSecureEndpointResourceMonitor
             public static string tetra_def_version = "0";
             public static bool export_checkbox = false;
             public static string writePath = "ResourceMonitor.csv";
+            public static System.Timers.Timer aTimer = null;
+            public static int log_interval = 0;
+            public static bool log_time_elapsed = false;
         }
         static long GetDirectorySize()
         {
@@ -447,11 +468,11 @@ namespace CiscoSecureEndpointResourceMonitor
 
             // Create and read from the XML file(s)
             XmlDocument policy_xml = new XmlDocument();
-            policy_xml.Load($"{Running.path}/policy.xml");
+            policy_xml.Load($"{Running.path}\\policy.xml");
             XmlDocument global_xml = new XmlDocument();
-            global_xml.Load($"{Running.path}/{Running.current_version}/global.xml");
+            global_xml.Load($"{Running.path}\\{Running.current_version}\\global.xml");
             XmlDocument local_xml = new XmlDocument();
-            local_xml.Load($"{Running.path}/local.xml");
+            local_xml.Load($"{Running.path}\\local.xml");
             string build = parseXML(global_xml, build_list, 0);
             string policy_uuid = parseXML(policy_xml, policy_uuid_list, 0);
             string policy_name = parseXML(policy_xml, policy_name_list, 0);
@@ -511,6 +532,11 @@ namespace CiscoSecureEndpointResourceMonitor
                 return item1;
             }
             catch (NullReferenceException ex) { return "0"; }
+        }
+
+        private void duration_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            Running.log_interval = duration.SelectedIndex;
         }
 
     }
